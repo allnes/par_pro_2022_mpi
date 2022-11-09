@@ -22,7 +22,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_10) {
         #ifdef DEBUG
         std::cout << "LEN : " << str_len << ">" << std::endl;
         std::cout << "TEXT : " << global_str << ">" << std::endl;
-        #endif   
+        #endif
     }
 
     MPI_Bcast(&str_len, 1, MPI_INT, 0, MPI_COMM_WORLD);
