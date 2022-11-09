@@ -22,7 +22,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_10) {
         #ifdef DEBUG
         std::cout << "LEN : " << str_len << ">" << std::endl;
         std::cout << "TEXT : " << global_str << ">" << std::endl;
-        #endif      
+        #endif   
     }
 
     MPI_Bcast(&str_len, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -48,7 +48,6 @@ TEST(Parallel_Operations_MPI, Test_Sum_100) {
     if (rank == 0) {
         global_str = getRandomText(word_len);
         str_len = global_str.length();
-
     }
 
     MPI_Bcast(&str_len, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -68,10 +67,10 @@ TEST(Parallel_Operations_MPI, Test_Sum_1000) {
     const int word_len =  100000;
     int str_len = -1;
 
-  
+
     if (rank == 0) {
         global_str = getRandomText(word_len);
-        str_len = global_str.length();            
+        str_len = global_str.length();         
     }
 
     MPI_Bcast(&str_len, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -93,7 +92,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_10000) {
 
     if (rank == 0) {
         global_str = getRandomText(word_len);
-        str_len = global_str.length();          
+        str_len = global_str.length();
     }
 
     MPI_Bcast(&str_len, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -114,10 +113,9 @@ TEST(Parallel_Operations_MPI, Test_Sum_100000) {
     const int word_len =  100000;
     int str_len = -1;
 
-   
     if (rank == 0) {
         global_str = getRandomText(word_len);
-        str_len = global_str.length();      
+        str_len = global_str.length();
     }
 
     MPI_Bcast(&str_len, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -132,7 +130,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_100000) {
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
-    
+
     ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
     ::testing::TestEventListeners& listeners =
         ::testing::UnitTest::GetInstance()->listeners();

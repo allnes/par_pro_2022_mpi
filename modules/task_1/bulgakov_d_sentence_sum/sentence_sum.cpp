@@ -89,14 +89,14 @@ int getParallelOperations(std::string global_str, int str_len) {
         for (int proc = 1; proc < size - 1; proc++) {
             MPI_Send(global_str.substr(proc * delta).c_str(), delta, MPI_CHAR, proc, 0 , MPI_COMM_WORLD);
             #ifdef DEBUG
-            std::cout << "RANK : " << proc << "TEXT " << global_str.substr(proc * delta, delta) << std::endl; 
+            std::cout << "RANK : " << proc << "TEXT " << global_str.substr(proc * delta, delta) << std::endl;
             #endif
         }
         if (size > 1) {
-            MPI_Send(global_str.substr((size - 1) * delta).c_str(), 
-                delta + str_len % size, MPI_CHAR, size - 1, 0 , MPI_COMM_WORLD);    
+            MPI_Send(global_str.substr((size - 1) * delta).c_str(),
+                delta + str_len % size, MPI_CHAR, size - 1, 0 , MPI_COMM_WORLD);
             #ifdef DEBUG
-            std::cout << "RANK : " << (size - 1) << "TEXT " << 
+            std::cout << "RANK : " << (size - 1) << "TEXT " <<
                 global_str.substr((size - 1) * delta, delta + str_len % size) << std::endl;
             #endif
         }
