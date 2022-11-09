@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+// #define DEBUG
+
 std::string getRandomString(int len){
     std::string res = "";
     static const char chars[] = 
@@ -20,7 +22,7 @@ std::string getRandomString(int len){
 std::string getRandomText(int word_count){
     std::string text = "";
     int str_end_prob = 5;
-    static const std::string str_split[5] = {"...", "?", "!", "!?", "."};
+    static const std::string str_split[3] = {"?", "!", "."};
     
     std::random_device dev;
     std::mt19937 gen(dev());
@@ -33,11 +35,11 @@ std::string getRandomText(int word_count){
 
         if (i == 0) {text += getRandomString(gen() % 10 + 2); continue;}
         if (i == word_count - 2) {text += " " + getRandomString(gen() % 10 + 2); continue;}
-        if (i == word_count - 1) {text += str_split[gen() % 5]; break;}
+        if (i == word_count - 1) {text += str_split[gen() % 3]; break;}
 
 
         if (pr == str_end_prob - 1 && !is_last_ended){
-            text += str_split[gen() % 5];
+            text += str_split[gen() % 3];
             is_last_ended = true;
         }
         else {
@@ -52,32 +54,26 @@ std::string getRandomText(int word_count){
 int getSequentialOperations(std::string str){
     int count = 0;
     std::string str_end = ".?!";
-    bool is_end = false;
-    bool is_begin_split = false;
+    std::string found;
     for (int i = 0; i < (int)str.length(); i++){
-        if (str_end.find(str[i]) != std::string::npos){
-            if (i == 0 || is_begin_split) {
-                is_begin_split = true;
-                continue;
-            }
-            if (!is_end) count++;
-            is_end = true;
+        if (str_end.find(str[i]) == '.' ||
+        str_end.find(str[i]) == '?'||
+        str_end.find(str[i]) == '!'){
+            count++;
+            #ifdef DEBUG
+            found += str[i] ;
+            #endif
         }
-        else if (is_begin_split == true){
-            if (i > 1 && (str[i-1] == '?' || str[i-1] == '!'))
-                count++;
-            if ((i > 2 || i == 1) && str[i-1] == '.')
-                count++;
-            is_begin_split = false;
-            is_end = false;
-        }
-        else {is_end = false;}
     }
+    #ifdef DEBUG
+    std::cout << "FOUND :" << found << std::endl;
+    #endif 
     return count;
     
 }
 
 int getParallelOperations(std::string global_str, int str_len){
+
 
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -85,9 +81,22 @@ int getParallelOperations(std::string global_str, int str_len){
     const int delta = str_len / size;
 
     if (rank == 0){
-        for (int proc = 1; proc < size; proc++) {
-            MPI_Send(global_str.substr(proc * delta).c_str(), delta,
-                MPI_CHAR, proc, 0 ,MPI_COMM_WORLD);
+        #ifdef DEBUG
+        std::cout << "DELTA = " << delta << std::endl;
+        std::cout << "TEXT_ALL = " << global_str << std::endl;
+        std::cout << "RANK : " << 0 << "TEXT " << global_str.substr(0, delta) << std::endl; 
+        #endif
+        for (int proc = 1; proc < size - 1; proc++) {
+            MPI_Send(global_str.substr(proc * delta).c_str(), delta, MPI_CHAR, proc, 0 ,MPI_COMM_WORLD);
+            #ifdef DEBUG
+            std::cout << "RANK : " << proc << "TEXT " << global_str.substr(proc * delta, delta) << std::endl; 
+            #endif        
+        }
+        if (size > 1){
+            MPI_Send(global_str.substr((size - 1) * delta).c_str(), delta + str_len % size, MPI_CHAR, size - 1, 0 ,MPI_COMM_WORLD);    
+            #ifdef DEBUG
+            std::cout << "RANK : " << (size - 1) << "TEXT " << global_str.substr((size - 1) * delta, delta + str_len % size) << std::endl; 
+            #endif
         }
     }
 
@@ -97,8 +106,9 @@ int getParallelOperations(std::string global_str, int str_len){
     }
     else {
         MPI_Status status;
-        char * buff;
-        MPI_Recv(buff, delta, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+        // std::cout << "HERE" << std::endl;
+        char buff[delta + 10];
+        MPI_Recv(buff, delta + 10, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         local_str = std::string(buff);
     }
     
