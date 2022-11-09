@@ -108,10 +108,9 @@ int getParallelOperations(std::string global_str, int str_len){
     }
     else {
         MPI_Status status;
-        const int l = (delta + 10);
         // std::cout << "HERE" << std::endl;
-        char buff[l];
-        MPI_Recv(buff, l, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+        char* buff = new char[delta + 10];
+        MPI_Recv(buff, delta + 10, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         local_str = std::string(buff);
     }
     
