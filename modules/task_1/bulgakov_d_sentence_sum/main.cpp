@@ -70,7 +70,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_1000) {
 
     if (rank == 0) {
         global_str = getRandomText(word_len);
-        str_len = global_str.length();         
+        str_len = global_str.length();
     }
 
     MPI_Bcast(&str_len, 1, MPI_INT, 0, MPI_COMM_WORLD);
