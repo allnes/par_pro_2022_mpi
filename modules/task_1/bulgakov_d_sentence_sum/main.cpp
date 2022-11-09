@@ -1,3 +1,5 @@
+// Copyright 2022 Bulgakov Daniil
+
 #include <gtest/gtest.h>
 #include <string>
 #include <iostream>

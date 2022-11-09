@@ -1,3 +1,5 @@
+// Copyright 2022 Bulgakov Daniil
+
 #include <mpi.h>
 #include <string>
 #include <random>
@@ -54,7 +56,9 @@ std::string getRandomText(int word_count){
 int getSequentialOperations(std::string str){
     int count = 0;
     std::string str_end = ".?!";
+    #ifdef DEBUG
     std::string found;
+    #endif
     for (int i = 0; i < (int)str.length(); i++){
         if (str_end.find(str[i]) == '.' ||
         str_end.find(str[i]) == '?'||
@@ -73,8 +77,6 @@ int getSequentialOperations(std::string str){
 }
 
 int getParallelOperations(std::string global_str, int str_len){
-
-
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -106,9 +108,10 @@ int getParallelOperations(std::string global_str, int str_len){
     }
     else {
         MPI_Status status;
+        const int l = (delta + 10);
         // std::cout << "HERE" << std::endl;
-        char buff[delta + 10];
-        MPI_Recv(buff, delta + 10, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+        char buff[l];
+        MPI_Recv(buff, l, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
         local_str = std::string(buff);
     }
     
