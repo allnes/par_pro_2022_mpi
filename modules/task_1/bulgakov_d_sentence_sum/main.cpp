@@ -12,7 +12,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_10) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     std::string global_str;
-    const int word_len =  100000;
+    const int word_len =  10;
     int str_len = -1;
 
 
@@ -41,7 +41,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_100) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     std::string global_str;
-    const int word_len =  100000;
+    const int word_len =  100;
     int str_len = -1;
 
 
@@ -64,7 +64,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_1000) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     std::string global_str;
-    const int word_len =  100000;
+    const int word_len =  1000;
     int str_len = -1;
 
 
@@ -86,7 +86,7 @@ TEST(Parallel_Operations_MPI, Test_Sum_10000) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     std::string global_str;
-    const int word_len =  100000;
+    const int word_len =  10000;
     int str_len = -1;
 
 
