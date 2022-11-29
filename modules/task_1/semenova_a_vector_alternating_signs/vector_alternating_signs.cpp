@@ -1,15 +1,18 @@
 // Copyright 2022 Semenova Veronika
 #include <mpi.h>
 #include <random>
-#include <time.h>
 #include "../../../modules/task_1/semenova_a_vector_alternating_signs/vector_alternating_signs.h"
 
 void RandVec(int* V, int n) {
-    srand(time(NULL));
-    int a = 0;
-    for (int i = 0; i < n; i++) {
-        a = rand() % 2;
-        V[i] = a - (a + 1) % 2;
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(1, 0xFFFFFFFF);
+    if (vec == nullptr)
+        throw "vector is not allocated";
+    for (int i = 0; i < len; i++) {
+        do {
+            vec[i] = static_cast<int>(dist(rng)) * ((static_cast<int>(dist(rng)) & 0x01) ? -1 : 1);
+        } while (!vec[i]);
     }
 }
 
