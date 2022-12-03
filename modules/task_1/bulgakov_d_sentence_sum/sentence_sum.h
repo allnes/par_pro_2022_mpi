@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-std::vector<int> parseTextToIndexes(std::string str, int proc_num);
+std::vector<std::string> parseText(std::string str, int proc_num);
 
 int computeSenteceCount(std::string str);
 
