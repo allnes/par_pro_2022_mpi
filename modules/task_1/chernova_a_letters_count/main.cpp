@@ -1,11 +1,9 @@
 // Copyright 2022 Anna Chernova
 #include <gtest/gtest.h>
 #include <mpi.h>
-
+#include "../chernova_a_letters_count/letters_count.h"
 #include <gtest-mpi-listener.hpp>
 #include <vector>
-
-#include "../chernova_a_letters_count/letters_count.h"
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
