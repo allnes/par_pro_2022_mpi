@@ -1,5 +1,11 @@
 // Copyright 2022 Anna Chernova
-
+#include <mpi.h>
+#include <vector>
+#include <string>
+#include <random>
+#include <algorithm>
+#include <numeric>
+#include <iostream>
 #include "../../../modules/task_1/chernova_a_letters_count/letters_count.h"
 
 int countLetters(string str) {
