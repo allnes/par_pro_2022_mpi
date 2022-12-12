@@ -39,23 +39,23 @@ void test_random_linear_system(int n, double epsilon) {
 }
 
 TEST(Simple_Iteration_Method_MPI, Test_1) {
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 1000; ++i)
         test_random_linear_system(5, 1e-9);
 }
 
 TEST(Simple_Iteration_Method_MPI, Test_2) {
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 1000; ++i)
         test_random_linear_system(10, 2e-9);
 }
 
 TEST(Simple_Iteration_Method_MPI, Test_3) {
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 100; ++i)
         test_random_linear_system(50, 1e-8);
 }
 
 TEST(Simple_Iteration_Method_MPI, Test_4) {
     for (int i = 0; i < 10; ++i)
-        test_random_linear_system(100, 1e-8);
+        test_random_linear_system(100, 2e-8);
 }
 
 TEST(Simple_Iteration_Method_MPI, Test_5) {
