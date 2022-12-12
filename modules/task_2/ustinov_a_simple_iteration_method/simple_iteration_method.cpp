@@ -3,6 +3,7 @@
 #include <mpi.h>
 #include <random>
 #include <cmath>
+#include <cstring>
 
 using std::vector;
 using std::mt19937_64;
@@ -10,6 +11,7 @@ using std::random_device;
 using std::uniform_real_distribution;
 using std::abs;
 using std::max;
+using std::memcpy;
 
 vector<double> simple_iteration_method_parallel(
         const vector<double> &A_vector,
