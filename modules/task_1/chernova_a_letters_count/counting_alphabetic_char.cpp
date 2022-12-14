@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <numeric>
 #include <iostream>
-#include "../../../modules/task_1/kulemin_p_counting_alphabetic_char/counting_alphabetic_char.h"
+#include "../../../modules/task_1/chernova_a_letters_count/counting_alphabetic_char.h"
 
 
 std::string getRandomString(size_t  size) {
