@@ -8,6 +8,7 @@
 #include <numeric>
 #include <iostream>
 #include <ctime>
+#include <climits>
 
 std::string getRandomString(size_t  size);
 int CountingAlphabeticCharParallel(const std::string& str);
