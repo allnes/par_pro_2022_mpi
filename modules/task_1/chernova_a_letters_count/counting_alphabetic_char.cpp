@@ -1,13 +1,6 @@
 // Copyright 2022
-#include <mpi.h>
-#include <vector>
-#include <string>
-#include <random>
-#include <algorithm>
-#include <numeric>
-#include <iostream>
-#include "../../../modules/task_1/chernova_a_letters_count/counting_alphabetic_char.h"
 
+#include "../../../modules/task_1/chernova_a_letters_count/counting_alphabetic_char.h"
 
 std::string getRandomString(size_t  size) {
     std::random_device dev;
