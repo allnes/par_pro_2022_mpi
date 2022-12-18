@@ -1,71 +1,110 @@
-get_filename_component(ProjectId ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-enable_testing()
+// Copyright 2022
+#include <gtest/gtest.h>
+#include <gtest-mpi-listener.hpp>
+#include <vector>
+#include "../chernova_a_letters_count/counting_alphabetic_char.h"
 
-if( USE_MPI )
-    if( UNIX )
-        set(CMAKE_C_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-uninitialized")
-        set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-uninitialized")
-    endif( UNIX )
+TEST(Parallel_Operations_MPI, Test_Empty_string) {
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::string global_vec;
+  const int count_size_vector = 0;
+  if (rank == 0) {
+    global_vec = getRandomString(count_size_vector);
+  }
 
-    set(ProjectId "${ProjectId}_mpi")
-    project( ${ProjectId} )
-    message( STATUS "-- " ${ProjectId} )
+  int global_sum = CountingAlphabeticCharParallel(global_vec);
 
-    file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
+  if (rank == 0) {
+    int reference_sum = CountingAlphabeticCharSequential(global_vec);
+    ASSERT_EQ(reference_sum, global_sum);
+  }
+}
 
-    set(PACK_LIB "${ProjectId}_lib")
-    add_library(${PACK_LIB} STATIC ${ALL_SOURCE_FILES} )
+TEST(Parallel_Operations_MPI, Test_Diff) {
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::string global_vec;
+  const int count_size_vector = 120;
+  int global_diff;
+  if (rank == 0) {
+    global_vec = getRandomString(count_size_vector);
+  }
+  global_diff = CountingAlphabeticCharParallel(global_vec);
 
-    add_executable( ${ProjectId} ${ALL_SOURCE_FILES} )
+  if (rank == 0) {
+    int reference_diff = CountingAlphabeticCharSequential(global_vec);
+    ASSERT_EQ(reference_diff, global_diff);
+  }
+}
 
-    target_link_libraries(${ProjectId} ${PACK_LIB})
-    if( MPI_COMPILE_FLAGS )
-        set_target_properties( ${ProjectId} PROPERTIES COMPILE_FLAGS "${MPI_COMPILE_FLAGS}" )
-    endif( MPI_COMPILE_FLAGS )
+TEST(Parallel_Operations_MPI, Test_Diff_2) {
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::string global_vec;
+  const int count_size_vector = 120;
 
-    if( MPI_LINK_FLAGS )
-        set_target_properties( ${ProjectId} PROPERTIES LINK_FLAGS "${MPI_LINK_FLAGS}" )
-    endif( MPI_LINK_FLAGS )
-    target_link_libraries( ${ProjectId} ${MPI_LIBRARIES} )
-    target_link_libraries(${ProjectId} gtest gtest_main)
+  if (rank == 0) {
+    global_vec = getRandomString(count_size_vector);
+  }
 
-    enable_testing()
-    add_test(NAME ${ProjectId} COMMAND ${ProjectId})
+  int global_diff = CountingAlphabeticCharParallel(global_vec);
 
-    if( UNIX )
-        foreach (SOURCE_FILE ${ALL_SOURCE_FILES})
-            string(FIND ${SOURCE_FILE} ${PROJECT_BINARY_DIR} PROJECT_TRDPARTY_DIR_FOUND)
-            if (NOT ${PROJECT_TRDPARTY_DIR_FOUND} EQUAL -1)
-                list(REMOVE_ITEM ALL_SOURCE_FILES ${SOURCE_FILE})
-            endif ()
-        endforeach ()
+  if (rank == 0) {
+    int reference_diff = CountingAlphabeticCharSequential(global_vec);
+    ASSERT_EQ(reference_diff, global_diff);
+  }
+}
 
-        find_program(CPPCHECK cppcheck)
-        add_custom_target(
-                "${ProjectId}_cppcheck" ALL
-                COMMAND ${CPPCHECK}
-                --enable=warning,performance,portability,information,missingInclude
-                --language=c++
-                --std=c++11
-                --error-exitcode=1
-                --template="[{severity}][{id}] {message} {callstack} \(On {file}:{line}\)"
-                --verbose
-                --quiet
-                ${ALL_SOURCE_FILES}
-        )
-    endif( UNIX )
+TEST(Parallel_Operations_MPI, Test_Max) {
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::string global_vec;
+  const int count_size_vector = 120;
 
-    SET(ARGS_FOR_CHECK_COUNT_TESTS "")
-    foreach (FILE_ELEM ${ALL_SOURCE_FILES})
-        set(ARGS_FOR_CHECK_COUNT_TESTS "${ARGS_FOR_CHECK_COUNT_TESTS} ${FILE_ELEM}")
-    endforeach ()
+  if (rank == 0) {
+    global_vec = getRandomString(count_size_vector);
+  }
 
-    add_custom_target("${ProjectId}_check_count_tests" ALL
-            COMMAND "${Python3_EXECUTABLE}"
-                ${CMAKE_SOURCE_DIR}/scripts/check_count_tests.py
-                ${ProjectId}
-                ${ARGS_FOR_CHECK_COUNT_TESTS}
-    )
-else( USE_MPI )
-    message( STATUS "-- ${ProjectId} - NOT BUILD!"  )
-endif( USE_MPI )
+  int global_max;
+  global_max = CountingAlphabeticCharParallel(global_vec);
+
+  if (rank == 0) {
+    int reference_max = CountingAlphabeticCharSequential(global_vec);
+    ASSERT_EQ(reference_max, global_max);
+  }
+}
+
+TEST(Parallel_Operations_MPI, Test_Max_2) {
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::string global_vec;
+  const int count_size_vector = 120;
+
+  if (rank == 0) {
+    global_vec = getRandomString(count_size_vector);
+  }
+
+  int global_max;
+  global_max = CountingAlphabeticCharParallel(global_vec);
+
+  if (rank == 0) {
+    int reference_max = CountingAlphabeticCharSequential(global_vec);
+    ASSERT_EQ(reference_max, global_max);
+  }
+}
+
+int main(int argc, char** argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  MPI_Init(&argc, &argv);
+
+  ::testing::AddGlobalTestEnvironment(new GTestMPIListener::MPIEnvironment);
+  ::testing::TestEventListeners& listeners =
+      ::testing::UnitTest::GetInstance()->listeners();
+
+  listeners.Release(listeners.default_result_printer());
+  listeners.Release(listeners.default_xml_generator());
+
+  listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
+  return RUN_ALL_TESTS();
+}
