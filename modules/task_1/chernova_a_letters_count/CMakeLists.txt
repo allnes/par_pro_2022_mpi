@@ -1,7 +1,9 @@
 // Copyright 2022
 #include <gtest/gtest.h>
+
 #include <gtest-mpi-listener.hpp>
 #include <vector>
+
 #include "../chernova_a_letters_count/counting_alphabetic_char.h"
 
 TEST(Parallel_Operations_MPI, Test_Empty_string) {
