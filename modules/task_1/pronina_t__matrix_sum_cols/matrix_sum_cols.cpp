@@ -1,11 +1,9 @@
 // Copyright 2022 Pronina Tatiana
-#include "../../../modules/task_1/pronina_t_matrix_sum_cols/matrix_sum_cols.h"
-
 #include <mpi.h>
-
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include "../../../modules/task_1/pronina_t_matrix_sum_cols/matrix_sum_cols.h"
 
 int* CreateRandMatrix(int rows, int cols) {
   if (rows <= 0 || cols <= 0) {
