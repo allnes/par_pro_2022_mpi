@@ -4,4 +4,4 @@
 
 double monteCarlo(int low, int high, int count, double (*f)(double));
 
-#endif
+#endif  // MODULES_TASK_1_KOSTERIN_A_INTEG_MONTE_INTEG_MONTE_H_
