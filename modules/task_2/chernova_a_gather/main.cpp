@@ -1,4 +1,4 @@
-// Copyright 2021 Feoktistov Andrei
+// Copyright 2022 Chernova Anna
 #include <gtest/gtest.h>
 #include <iostream>
 #include <gtest-mpi-listener.hpp>

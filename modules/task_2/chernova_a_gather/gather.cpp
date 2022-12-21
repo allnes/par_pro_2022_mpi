@@ -1,4 +1,4 @@
-// Copyright 2021 Feoktistov Andrei
+// Copyright 2022 Chernova Anna
 #include "../../modules/task_2/chernova_a_gather/gather.h"
 
 void getRandomVector(int* arr, int size) {
