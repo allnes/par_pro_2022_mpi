@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 
 #include "./integ_monte.h"
+#include <cmath>
 #include <gtest-mpi-listener.hpp>
 
 double f1(double x) { return (pow(x, 2)); }
