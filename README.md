@@ -1,4 +1,5 @@
 ![Build application](https://github.com/allnes/par_pro_2022_mpi/workflows/Build%20application/badge.svg?branch=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/hbcj4guf8w7mds89/branch/master?svg=true)](https://ci.appveyor.com/project/allnes/par-pro-2022-mpi/branch/master)
 
 # Parallel Programming Course
 
