@@ -1,7 +1,8 @@
 // Copyright 2022 Kosterin Alexey
-#include "../../../modules/task_1/kosterin_a_integ_monte/integ_monte.h"
-#include "mpi.h"
+#include <mpi.h>
 #include <random>
+
+#include "../../../modules/task_1/kosterin_a_integ_monte/integ_monte.h"
 
 double monteCarlo(int low, int high, int count, double (*f)(double)) {
   std::random_device dev;

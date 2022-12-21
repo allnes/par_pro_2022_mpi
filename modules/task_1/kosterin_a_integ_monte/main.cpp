@@ -1,7 +1,8 @@
 // Copyright 2022 Kosterin Alexey
+#include <gtest/gtest.h>
+
 #include "./integ_monte.h"
 #include <gtest-mpi-listener.hpp>
-#include <gtest/gtest.h>
 
 double f1(double x) { return (pow(x, 2)); }
 double f2(double x) { return (1 / log(x)); }
