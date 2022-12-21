@@ -1,6 +1,6 @@
 // Copyright Anna Goncharova
 
-#include "./scalar_product.h"
+#include "../../../modules/task_1/goncharova_a_scalar_product/scalar_product.h"
 
 
 std::vector<int> creatRandomVector(const int v_size) {

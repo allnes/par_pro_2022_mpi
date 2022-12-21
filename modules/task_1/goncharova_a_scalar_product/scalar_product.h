@@ -21,4 +21,4 @@ int getSequentialScalarProduct(const std::vector<int>& a, const std::vector<int>
 
 int getParallelScalarProduct(const std::vector<int>& a, const std::vector<int>& b);
 
-#endif // MODULES_TASK_1_GONCHAROVA_A_SCALAR_PRODUCT_SCALAR_PRODUCT_H_
+#endif  // MODULES_TASK_1_GONCHAROVA_A_SCALAR_PRODUCT_SCALAR_PRODUCT_H_
