@@ -1,5 +1,5 @@
 // Copyright 2022 Kosterin Alexey
-#include "../../../modules/task_1/kosterin_a_integ_monte/integ_monte.h.h"
+#include "../../../modules/task_1/kosterin_a_integ_monte/integ_monte.h"
 #include "mpi.h"
 #include <random>
 
@@ -28,7 +28,6 @@ double monteCarlo(int low, int high, int count, double (*f)(double)) {
   double sum = 0;
 
   for (int i = ibeg; i < iend; i++) {
-
     x = distx(gen);
     y = disty(gen);
     if (y <= f(x)) {
