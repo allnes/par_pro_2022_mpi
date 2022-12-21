@@ -19,8 +19,7 @@ double monteCarlo(int low, int high, int count, double (*f)(double))
     double iter, res1;
     double d = f(low);
     for (iter = low; iter <= high; iter += (high - low) / 500.0)
-    {
-        // if (f(iter) < c)  c = f(iter);
+    { // NOLINT
         if (f(iter) > d)
             d = f(iter);
     }
@@ -31,11 +30,10 @@ double monteCarlo(int low, int high, int count, double (*f)(double))
 
     for (int i = ibeg; i < iend; i++)
     { // NOLINT
-
         x = distx(gen);
         y = disty(gen);
         if (y <= f(x))
-        {
+        { // NOLINT
             sum++;
         }
     }

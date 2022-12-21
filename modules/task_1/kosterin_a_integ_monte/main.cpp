@@ -4,27 +4,27 @@
 #include <gtest-mpi-listener.hpp>
 
 double f1(double x)
-{
+{ // NOLINT
     return (pow(x, 2));
 }
 double f2(double x)
-{
+{ // NOLINT
     return (1 / log(x));
 }
 double f3(double x)
-{
+{ // NOLINT
     return (exp(x) / x);
 }
 double f4(double x)
-{
+{ // NOLINT
     return (log(x) + (5 * x));
 }
 double f5(double x)
-{
+{ // NOLINT
     return (exp(x) * pow(x, 2));
 }
 TEST(Parallel_Operations_MPI, Test_xx)
-{
+{ // NOLINT
     double err = 0.1;
     bool flag = false;
     int rank;
@@ -34,7 +34,7 @@ TEST(Parallel_Operations_MPI, Test_xx)
     double res = floor(monteCarlo(low, high, count, &f1) * 100) / 100;
     double corRes = 0.33;
     if (rank == 0)
-    {
+    { // NOLINT
         if (abs(res - corRes) <= err)
             flag = true;
         ASSERT_EQ(flag, true);
@@ -42,7 +42,7 @@ TEST(Parallel_Operations_MPI, Test_xx)
 }
 
 TEST(Parallel_Operations_MPI, Test_hard_log)
-{
+{ // NOLINT
     double err = 0.1;
     bool flag = false;
     int rank;
@@ -51,9 +51,8 @@ TEST(Parallel_Operations_MPI, Test_hard_log)
     int low = 2, high = 3;
     double res = floor(monteCarlo(low, high, count, &f2) * 10) / 10;
     double corRes = 1.1;
-    // сделать ран и вывод если ранк==0 и смотри его мейн
     if (rank == 0)
-    {
+    { // NOLINT
         if (abs(res - corRes) <= err)
             flag = true;
         ASSERT_EQ(flag, true);
@@ -61,7 +60,7 @@ TEST(Parallel_Operations_MPI, Test_hard_log)
 }
 
 TEST(Parallel_Operations_MPI, Test_hard_exp)
-{
+{ // NOLINT
     double err = 0.1;
     bool flag = false;
     int rank;
@@ -70,16 +69,15 @@ TEST(Parallel_Operations_MPI, Test_hard_exp)
     int low = 1, high = 2;
     double res = floor(monteCarlo(low, high, count, &f3) * 100) / 100;
     double corRes = 3.05;
-    // сделать ран и вывод если ранк==0 и смотри его мейн
     if (rank == 0)
-    {
+    { // NOLINT
         if (abs(res - corRes) <= err)
             flag = true;
         ASSERT_EQ(flag, true);
     }
 }
 TEST(Parallel_Operations_MPI, Test_log)
-{
+{ // NOLINT
     double err = 0.1;
     bool flag = false;
     int rank;
@@ -88,9 +86,8 @@ TEST(Parallel_Operations_MPI, Test_log)
     int low = 0, high = 1;
     double res = floor(monteCarlo(low, high, count, &f4) * 10) / 10;
     double corRes = 1.9;
-    // сделать ран и вывод если ранк==0 и смотри его мейн
     if (rank == 0)
-    {
+    { // NOLINT
         if (abs(res - corRes) <= err)
             flag = true;
         ASSERT_EQ(flag, true);
@@ -98,7 +95,7 @@ TEST(Parallel_Operations_MPI, Test_log)
 }
 
 TEST(Parallel_Operations_MPI, Test_exp)
-{
+{ // NOLINT
     double err = 0.1;
     bool flag = false;
     int rank;
@@ -107,9 +104,8 @@ TEST(Parallel_Operations_MPI, Test_exp)
     int low = 0, high = 1;
     double res = floor(monteCarlo(low, high, count, &f5) * 100) / 100;
     double corRes = 0.71;
-    // сделать ран и вывод если ранк==0 и смотри его мейн
     if (rank == 0)
-    {
+    { // NOLINT
         if (abs(res - corRes) <= err)
             flag = true;
         ASSERT_EQ(flag, true);
@@ -117,7 +113,7 @@ TEST(Parallel_Operations_MPI, Test_exp)
 }
 
 int main(int argc, char **argv)
-{
+{ // NOLINT
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
