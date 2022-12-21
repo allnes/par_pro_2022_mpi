@@ -1,10 +1,10 @@
-// Copyright 2018 Nesterov Alexander
+// Copyright 2022 Kosterin Alexey
 #include <random>
 #include "mpi.h"
-#include "integ_monte.h"
+#include "../../../modules/task_1/kosterin_a_integ_monte/integ_monte.h.h"
 
 double monteCarlo(int low, int high, int count, double (*f)(double))
-{
+{ // NOLINT
     std::random_device dev;
     std::mt19937 gen(dev());
     std::uniform_real_distribution<> distx(low, high);
@@ -30,7 +30,7 @@ double monteCarlo(int low, int high, int count, double (*f)(double))
     double sum = 0;
 
     for (int i = ibeg; i < iend; i++)
-    {
+    { // NOLINT
 
         x = distx(gen);
         y = disty(gen);
