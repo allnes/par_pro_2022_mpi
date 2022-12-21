@@ -1,12 +1,13 @@
 // Copyright 2018 Nesterov Alexander
-#include <iostream>
-#include <stdio.h>
-#include <Windows.h>
+#include <random>
 #include "mpi.h"
 #include "integMonteMPI.h"
 
-double monteCarlo(double low, double high, int count, double (*f)(double))
+double monteCarlo(int low, int high, int count, double (*f)(double))
 {
+    std::random_device dev;
+    std::mt19937 gen(dev());
+    std::uniform_real_distribution<> distx(low, high);
     int size, rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -15,7 +16,6 @@ double monteCarlo(double low, double high, int count, double (*f)(double))
     int iend = (rank + 1) * delta;
     double res;
     float x, y;
-    srand(time(NULL));
     double iter, res1;
     double d = f(low);
     for (iter = low; iter <= high; iter += (high - low) / 500.0)
@@ -24,6 +24,7 @@ double monteCarlo(double low, double high, int count, double (*f)(double))
         if (f(iter) > d)
             d = f(iter);
     }
+    std::uniform_real_distribution<> disty(0, d);
 
     MPI_Bcast(&count, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     double sum = 0;
@@ -31,8 +32,8 @@ double monteCarlo(double low, double high, int count, double (*f)(double))
     for (int i = ibeg; i < iend; i++)
     {
 
-        x = low + (rand()) * (high - low) / RAND_MAX;
-        y = rand() * d / RAND_MAX;
+        x = distx(gen);
+        y = disty(gen);
         if (y <= f(x))
         {
             sum++;

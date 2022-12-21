@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-#include <vector>
-#include "integMonteMPI.h"
+#include "./integMonteMPI.h"
 #include <gtest-mpi-listener.hpp>
 
 double f1(double x)
