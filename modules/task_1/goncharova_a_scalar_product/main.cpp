@@ -1,9 +1,7 @@
-// Copyright 2019 Antipin Alexander
-#include <gtest-mpi-listener.hpp>
+  // Copyright Anna Goncharova
 #include <gtest/gtest.h>
-#include <vector>
-#include <iostream>
 #include "./scalar_product.h"
+#include <gtest-mpi-listener.hpp>
 
 TEST(scalar_product, can_product_vectors_with_100_range) {
     int rank;

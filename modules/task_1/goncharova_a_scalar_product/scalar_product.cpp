@@ -1,6 +1,6 @@
-#include <vector>
-#include <random>
-#include ".\scalar_product.h"
+// Copyright Anna Goncharova
+
+#include "./scalar_product.h"
 
 
 std::vector<int> creatRandomVector(const int v_size) {
@@ -9,13 +9,12 @@ std::vector<int> creatRandomVector(const int v_size) {
     gen.seed(static_cast<unsigned int>(time(NULL)));
     for (int i = 0; i < v_size; i++) {
         vector[i] = gen() % MAX_NUMBER + MIN_NUMBER;
-    
     }
-   
     return vector;
 }
 
-int getSequentialScalarProduct(const std::vector<int>& a, const std::vector<int>& b) {
+int getSequentialScalarProduct(const std::vector<int>& a,
+    const std::vector<int>& b) {
     if (a.size() != b.size()) {
         throw(1);
     }
@@ -26,7 +25,8 @@ int getSequentialScalarProduct(const std::vector<int>& a, const std::vector<int>
     return result;
 }
 
-int getParallelScalarProduct(const std::vector<int>& a, const std::vector<int>& b) {
+int getParallelScalarProduct(const std::vector<int>& a,
+    const std::vector<int>& b) {
     int rank, size;
     if (a.size() != b.size()) {
         throw(1);
@@ -38,13 +38,18 @@ int getParallelScalarProduct(const std::vector<int>& a, const std::vector<int>& 
     int result = 0, result_other = 0;
 
     if (rank == 0) {
-        for (int proc = 1; proc < size; ++proc) {
+        for (int proc = 1;
+            proc < size; ++proc) {
             if (proc == size - 1) {
-                MPI_Send(&a[0] + proc * v_size, v_size + re, MPI_INT, proc, 2, MPI_COMM_WORLD);
-                MPI_Send(&b[0] + proc * v_size, v_size + re, MPI_INT, proc, 3, MPI_COMM_WORLD);
+                MPI_Send(&a[0] + proc * v_size, v_size + re,
+                    MPI_INT, proc, 2, MPI_COMM_WORLD);
+                MPI_Send(&b[0] + proc * v_size, v_size + re,
+                    MPI_INT, proc, 3, MPI_COMM_WORLD);
             } else {
-                MPI_Send(&a[0] + proc * v_size, v_size, MPI_INT, proc, 0, MPI_COMM_WORLD);
-                MPI_Send(&b[0] + proc * v_size, v_size, MPI_INT, proc, 1, MPI_COMM_WORLD);
+                MPI_Send(&a[0] + proc * v_size, v_size,
+                    MPI_INT, proc, 0, MPI_COMM_WORLD);
+                MPI_Send(&b[0] + proc * v_size, v_size,
+                    MPI_INT, proc, 1, MPI_COMM_WORLD);
             }
         }
     }
