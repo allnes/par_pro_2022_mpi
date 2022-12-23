@@ -81,7 +81,7 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
         // addition to the original strings to
         // divide them into equal parts
         size_t additionLen =
-            (procNum - remainder) % procNum;  
+            (procNum - remainder) % procNum;
 
         copyLen = minLen + additionLen;
         delta = copyLen / procNum;
