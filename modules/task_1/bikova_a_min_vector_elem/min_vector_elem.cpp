@@ -1,5 +1,5 @@
 // Copyright 2022 Alexandra Bikova
-#include"../../../modules/task_1/Sasa_1Lab/min_vector_elem.h"
+#include"../../../modules/task_1/bikova_a_min_vector_elem/min_vector_elem.h"
 #include<mpi.h>
 #include<random>
 #include<vector>
