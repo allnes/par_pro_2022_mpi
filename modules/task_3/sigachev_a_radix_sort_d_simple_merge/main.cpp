@@ -90,8 +90,7 @@ TEST(Radix_Sort, Test4_Not_Parallel_VS_Parallel_With_Medium_Vector) {
     }
 }
 
-TEST(Radix_Sort, Test5_Not_Parallel_VS_Parallel_With_Big_Vector_Effiency)
-{
+TEST(Radix_Sort, Test5_Not_Parallel_VS_Parallel_With_Big_Vector_Effiency) {
     int ProcRank;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
     double t1, t2, t3, t4;
