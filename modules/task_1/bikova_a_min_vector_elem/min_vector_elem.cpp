@@ -28,8 +28,8 @@ void DataDistribution(std::vector<int>* vec, int n
 , std::vector<int>* ProcVec, int ProcRank, int ProcSize, int NumElem) {
     std::vector<int> pSendNum;
     std::vector<int> pSendInd;
-    pSendNum.resize(n);
-    pSendInd.resize(n);
+    pSendNum.resize(ProcSize);
+    pSendInd.resize(ProcSize);
     int RestElem = n;
     int NumberofElements = n / ProcSize;
     pSendNum[0] = NumberofElements;
