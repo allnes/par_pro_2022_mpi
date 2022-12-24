@@ -4,7 +4,7 @@
 #include<iostream>
 #include<algorithm>
 #include<gtest-mpi-listener.hpp>
-#include"../../../modules/task_1/Sasa_1Lab/min_vector_elem.h"
+#include"../../../modules/task_1/bikova_a_min_vector_elem/min_vector_elem.h"
 TEST(Min_elem_vec, Test_1) {
     int ProcRank, ProcSize, min_element;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcSize);
