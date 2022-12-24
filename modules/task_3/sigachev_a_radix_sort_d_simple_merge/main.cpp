@@ -90,6 +90,41 @@ TEST(Radix_Sort, Test4_Not_Parallel_VS_Parallel_With_Medium_Vector) {
     }
 }
 
+TEST(Radix_Sort, Test5_Not_Parallel_VS_Parallel_With_Big_Vector_Effiency) 
+{
+    int ProcRank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
+    double t1, t2, t3, t4;
+
+    std::vector<double> v(75);
+    std::vector<double> not_p_vec, p_vec;
+
+    if (ProcRank == 0) {
+        v = Get_Random_Vector(75);
+        t1 = MPI_Wtime();
+        not_p_vec = Not_Parallel_Radix_Sort(v);
+        t2 = MPI_Wtime();
+    }
+
+    if (ProcRank == 0) {
+        t3 = MPI_Wtime();
+    }
+
+    p_vec = Parallel_Radix_Sort(v);
+
+    if (ProcRank == 0) {
+        t4 = MPI_Wtime();
+    }
+
+    if (ProcRank == 0) {
+        ASSERT_EQ(p_vec, not_p_vec);
+        std::cout << "NotParallel " << t2 - t1 << std::endl;
+        std::cout << "Parallel " << t4 - t3 << std::endl;
+        std::cout << "Effiency " << (t2 - t1) / (t4 - t3) << std::endl;
+    }
+}
+
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
