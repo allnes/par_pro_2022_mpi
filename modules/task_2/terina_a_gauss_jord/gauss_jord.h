@@ -15,4 +15,4 @@ std::vector<double> ParGJ(std::vector<double> str, int matrix_size);
 int evaluateforScatterv(int num_parts, int part_size, int it);
 std::vector<double> matrix_random(std::vector<double> num_vec, int matrix_size);
 
-#endif  //MODULES_TASK_2_TERINA_A_GAUSS_JORD_GAUSS_JORD_H_
+#endif  // MODULES_TASK_2_TERINA_A_GAUSS_JORD_GAUSS_JORD_H_

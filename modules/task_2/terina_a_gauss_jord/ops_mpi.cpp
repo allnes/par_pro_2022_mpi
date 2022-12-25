@@ -1,11 +1,11 @@
 // Copyright 2022 Terina Alina
+#include "../../../modules/task_2/terina_a_gauss_jord/gauss_jord.h"
+#include <mpi.h>
 #include <algorithm>
 #include <iterator>
-#include <mpi.h>
 #include <random>
 #include <string>
 #include <vector>
-#include "../../../modules/task_2/terina_a_gauss_jord/gauss_jord.h"
 
 std::vector<std::vector<double>> getRandomMatrix(std::vector<double> rightpart,
     int matrsize) {
@@ -66,7 +66,6 @@ std::vector<double> ordinaryGJ(std::vector<std::vector<double>> matrcoefs,
         }
 
         for (int j = 0; j < n; j++) {
-
             if (i != j) {
                 double pro = Matrix[j][i] / Matrix[i][i];
 
@@ -182,3 +181,4 @@ std::vector<double> ParGJ(std::vector<double> matrix, int matrsize) {
     sendvec.clear();
     return sol;
 }
+ 
