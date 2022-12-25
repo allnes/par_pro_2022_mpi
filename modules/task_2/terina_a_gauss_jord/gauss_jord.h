@@ -7,8 +7,8 @@
 
 std::vector<std::vector<double>> getRandomMatrix(std::vector<double> vec,
     int matrix_size);
-std::vector<double> ordinaryGJ(std::vector<std::vector<double>> matrcoefs,
-    std::vector<double> rightpart);
+std::vector<double> ordinaryGJ(const std::vector<std::vector<double>> &matrcoefs,
+    const std::vector<double> &rightpart);
 std::vector<double> getRandomRight(std::vector<double> vec, int matrix_size);
 void carve_up(int matrix_size, int part, double* str, double* sendvec);
 std::vector<double> ParGJ(std::vector<double> str, int matrix_size);

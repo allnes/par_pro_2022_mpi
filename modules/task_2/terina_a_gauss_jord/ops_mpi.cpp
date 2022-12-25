@@ -44,8 +44,8 @@ expandMatr(std::vector<std::vector<double>> matrcoefs,
     }
     return matrcoefs;
 }
-std::vector<double> ordinaryGJ(std::vector<std::vector<double>> matrcoefs,
-    std::vector<double> rightpart) {
+std::vector<double> ordinaryGJ(const std::vector<std::vector<double>> &matrcoefs,
+    const std::vector<double> &rightpart) {
 
     std::vector<std::vector<double>> Matrix;
     std::vector<double> sol(matrcoefs.size());
