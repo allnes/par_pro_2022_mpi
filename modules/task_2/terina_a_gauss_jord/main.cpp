@@ -1,11 +1,12 @@
 // Copyright 2022 Terina Alina
-#include "../../../modules/task_2/terina_a_gauss_jord/gauss_jord.h"
 #include <gtest/gtest.h>
+#include <vector>
+#include <random>
 #include <algorithm>
 #include <iterator>
-#include <random>
 #include <string>
-#include <vector>
+#include <iostream>
+#include "./gauss_jord.h"
 #include <gtest-mpi-listener.hpp>
 
 TEST(TestMPI, SolveMatr_rang_52) {
