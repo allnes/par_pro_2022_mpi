@@ -218,8 +218,7 @@ std::vector<int*> getComponent_TBB(int** mas, int n, int m, int*** convex_mas, i
                                 for (int k = begin; k != end; k++)
                                     for (int kk = 0; kk < m; kk++)
                                         if (mas[k][kk] == C) {
-                                            mas[k][kk] = B;
-                                        }
+                                            mas[k][kk] = B;}
                             });
                     }
                 }
