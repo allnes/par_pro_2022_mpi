@@ -12,16 +12,21 @@
 #include <vector>
 
 
-int** getRandomMas(int n, int m);
-
-std::vector<int*> getComponent(int** mas, int n, int m, int*** convex_mas, int* num);
-
-double length(int* p1, int* p2);
-double cosvec(int* p1, int* p2, int* p3);
-std::vector<int*> Jarvis(int** convex_mas, int n);
-std::vector<int*> Inside(std::vector<int*> hull, int** convex_mas, int n);
-
-std::vector<int*> getComponent_TBB(int** mas, int n, int m, int*** convex_mas, int* num, int num_thr);
-
+class SideClass {
+public:
+    double length(int* start, int* end);
+    double cosinus(int* start, int* end, int* startsecond);
+    int** getRandomPic(const int a, const int b);
+};
+class MainClass {
+public:
+    std::vector<int*> jarvis_TBB(int** convex_arr, int a);
+    std::vector<int*> getComponent_TBB(int** arr, int a, int b, int*** convex_arr,
+        int* num, int num_thr);
+    std::vector<int*> inside(std::vector<int*> vec, int** convex_arr, int a);
+    std::vector<int*> jarvis(int** convex_arr, int a);
+    std::vector<int*> getComponent(int** arr, int a, int b, int*** convex_arr,
+        int* num);
+};
 
 #endif  // MODULES_TASK_3_YASHINA_A_CONVEX_BIN_CONVEX_BIN_H_
