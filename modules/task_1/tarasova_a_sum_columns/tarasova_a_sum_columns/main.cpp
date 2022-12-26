@@ -1,6 +1,7 @@
 // Copyright 2022 Tarasova Anastasia
-#include "./sum_columns.h"
+
 #include <gtest/gtest.h>
+#include "./sum_columns.h"
 #include <gtest-mpi-listener.hpp>
 
 void SumOfColumnsTest(const int rows, const int cols) {

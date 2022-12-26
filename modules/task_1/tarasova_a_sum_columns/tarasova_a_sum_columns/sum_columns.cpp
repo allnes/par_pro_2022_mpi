@@ -1,9 +1,10 @@
 // Copyright 2022 Tarasova Anastasia
+
 #include "./sum_columns.h"
 
 std::vector<int> CreateMatrix(const int rows, const int cols) {
-    std::random_device rand;
-    std::mt19937 random(rand());
+    std::random_device rand_r;
+    std::mt19937 random(rand_r());
     std::vector<int> Matrix(rows * cols);
 
     for (int i = 0; i < rows * cols; i++)
@@ -12,7 +13,7 @@ std::vector<int> CreateMatrix(const int rows, const int cols) {
     return Matrix;
 }
 
-std::vector<int> GetSumCols(std::vector<int>& matrix, const int rows, const int cols) {
+std::vector<int> GetSumCols(const std::vector<int>& matrix, const int rows, const int cols) {
     std::vector<int> Sum(cols);
     for (int i = 0; i < cols; i++)
         Sum.at(i) = 0;
@@ -24,7 +25,7 @@ std::vector<int> GetSumCols(std::vector<int>& matrix, const int rows, const int 
     return Sum;
 }
 
-std::vector<int> GetSumColsParallel(std::vector<int>& matrix, const int rows, const int cols) {
+std::vector<int> GetSumColsParallel(const std::vector<int>& matrix, const int rows, const int cols) {
     int Rows = 0, Cols = 0, ProcCount, ProcId;
     std::vector<int> Matrix;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcCount);
