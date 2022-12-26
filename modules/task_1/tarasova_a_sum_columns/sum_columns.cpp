@@ -1,6 +1,6 @@
 // Copyright 2022 Tarasova Anastasia
 
-#include "./sum_columns.h"
+#include "../../../modules/task_1/tarasova_a_sum_columns/sum_columns.h"
 
 std::vector<int> CreateMatrix(const int rows, const int cols) {
     std::random_device rand_r;

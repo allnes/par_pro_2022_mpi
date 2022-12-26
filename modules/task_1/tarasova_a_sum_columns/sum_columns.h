@@ -1,6 +1,7 @@
 // Copyright 2022 Tarasova Anastasia
 #ifndef MODULES_TASK_1_TARASOVA_A_SUM_COLUMNS_TARASOVA_A_SUM_COLUMNS_SUM_COLUMNS_H_
 #define MODULES_TASK_1_TARASOVA_A_SUM_COLUMNS_TARASOVA_A_SUM_COLUMNS_SUM_COLUMNS_H_
+
 #include <mpi.h>
 #include <random>
 #include <vector>
