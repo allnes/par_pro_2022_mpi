@@ -33,7 +33,7 @@ TEST(Horiz_Scheme_MPI, Test_2x2) {
   res = getParGauss(a, 2);
   if (rank == 0) {
     resultFLine = firstLineRes(a, 2, res);
-    ASSERT_NEAR(resultFLine, a[(size + 1) + size], err);
+    ASSERT_NEAR(resultFLine, a[size], err);
   }
 }
 
