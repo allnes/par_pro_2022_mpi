@@ -48,16 +48,12 @@ bool ChekTrueAnswer(const std::vector<double> &a, int size,
                     const std::vector<double> &x) {
   std::vector<double> res(size);
   double e = 0.5;
-  
     for (int j = 0; j < size; j++) {
       res[0] += a[j] * x[j];
     }
-  
-
     if (std::abs(res[0] - a[0 * (size + 1) + size]) > e) {
       return false;
     }
-  
   return true;
 }
 
