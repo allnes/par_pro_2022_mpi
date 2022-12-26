@@ -44,14 +44,21 @@ std::vector<double> getGauss(const std::vector<double> &a, int size) {
   return res;
 }
 
-double firstLineRes(const std::vector<double> &a, int size,
+bool ChekTrueAnswer(const std::vector<double> &a, int size,
                     const std::vector<double> &x) {
-  double res = 0;
-  double e = 1e-9;
-  for (int j = 0; j < size; j++) {
-    res += a[j] * x[j];
+  std::vector<double> res(size);
+  double e = 0.5;
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size; j++) {
+      res[i] += a[(size + 1) * i + j] * x[j];
+    }
   }
-  return res;
+  for (int i = 0; i < size; i++) {
+    if (std::abs(res[i] - a[i * (size + 1) + size]) > e) {
+      return false;
+    }
+  }
+  return true;
 }
 
 std::vector<double> getParGauss(const std::vector<double> &a, int size) {
