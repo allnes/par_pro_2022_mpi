@@ -7,8 +7,7 @@
 
 int** getRandomMas(const int n, const int m) {
     if (n <= 0) {
-        throw "Wrong rows";
-    }else 
+        throw "Wrong rows";} else 
         if (m <= 0) {
         throw "wrong columns";}
     int** mas = new int* [n];
@@ -40,7 +39,7 @@ std::vector<int*> Jarvis(int** convex_mas, int n) {
     std::vector<int*> res;
     if (n == 1) {
         res.push_back(convex_mas[0]);
-    }else 
+    } else 
         if (n == 2) {
         res.push_back(convex_mas[0]);
         res.push_back(convex_mas[1]);} else {
@@ -65,13 +64,12 @@ std::vector<int*> Jarvis(int** convex_mas, int n) {
                     minind = i;
                     mincos = cos;
                     maxlen = length(last, convex_mas[i]);
-                }else {
+                } else {
                     if (cos == mincos) {
                         double len = length(last, convex_mas[i]);
                         if (len > maxlen) {
                             minind = i;
-                            maxlen = len;
-                        }
+                            maxlen = len;}
                     }
                 }
             }
@@ -96,18 +94,18 @@ std::vector<int*> getComponent(int** mas, int n, int m, int*** convex_mas, int* 
             if (kn + 1 <= 0) {
                 kn = 1;
                 B = 0;
-            }else {
+            } else {
                 B = mas[i][kn];
             }
             km = i - 1;
             if (km + 1 <= 0) {
                 km = 1;
-                C = 0;}else {
+                C = 0;} else {
                 C = mas[km][j];
             }
             A = mas[i][j];
 
-            if (A == 0) {}else {
+            if (A == 0) {} else {
                 *num = *num + 1;
                 if (B == 0 && C == 0) {
                     cur++;
@@ -122,8 +120,7 @@ std::vector<int*> getComponent(int** mas, int n, int m, int*** convex_mas, int* 
                 if (B != 0 && C != 0) {
                     if (B == C) {
                         mas[i][j] = B;
-                    }
-                    else {
+                    } else {
                         mas[i][j] = B;
                         for (int k = 0; k < i; k++)
                             for (int kk = 0; kk < m; kk++)
@@ -169,7 +166,7 @@ std::vector<int*> Inside(std::vector<int*> hull, int** convex_mas, int n) {
         auto result2 = std::find(err.begin(), err.end(), convex_mas[i][2]);
         if (result2 != err.end()) {
             continue;
-        }else {
+        } else {
             if (result1 != cur.end()) {
                 res.push_back(convex_mas[i]);
                 int* tmp = convex_mas[i];
@@ -190,17 +187,17 @@ std::vector<int*> getComponent_TBB(int** mas, int n, int m, int*** convex_mas, i
             if (kn + 1 <= 0) {
                 kn = 1;
                 B = 0;
-            }else {
+            } else {
                 B = mas[i][kn];
             }
             km = i - 1;
             if (km + 1 <= 0) {
                 km = 1;
-                C = 0;}else {
+                C = 0;} else {
                 C = mas[km][j];}
             A = mas[i][j];
 
-            if (A == 0) {}else {
+            if (A == 0) {} else {
                 *num = *num + 1;
                 if (B == 0 && C == 0) {
                     cur++;
@@ -211,7 +208,7 @@ std::vector<int*> getComponent_TBB(int** mas, int n, int m, int*** convex_mas, i
                     mas[i][j] = C;}
                 if (B != 0 && C != 0) {
                     if (B == C) {
-                        mas[i][j] = B;}else {
+                        mas[i][j] = B;} else {
                         mas[i][j] = B;
 
                         tbb::parallel_for(
