@@ -45,15 +45,15 @@ std::vector<double> getGauss(const std::vector<double> &a, int size) {
 }
 
 double firstLineRes(const std::vector<double> &a, int size,
-                     const std::vector<double> &x) {
-  double res=0;
+                    const std::vector<double> &x) {
+  double res = 0;
   double e = 1e-9;
-    for (int j = 0; j < size; j++) {
-      res += a[(size + 1) + j] * x[j];
-    }
-    if (std::abs(res - a[(size + 1) + size]) > e) {
-      return false;
-    }
+  for (int j = 0; j < size; j++) {
+    res += a[(size + 1) + j] * x[j];
+  }
+  if (std::abs(res - a[(size + 1) + size]) > e) {
+    return false;
+  }
   return res;
 }
 
