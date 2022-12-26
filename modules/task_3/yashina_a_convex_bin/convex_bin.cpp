@@ -5,7 +5,7 @@
 #include "../../../modules/task_3/yashina_a_convex_bin/convex_bin.h"
 
 
-int** RandomPic(const int a, const int b) {
+int** SideClass::RandomPic(const int a, const int b) {
   if ((a <= 0) || (b <= 0)) throw "\tError_In_Rows_&_Columns\n";
   int** arr = new int*[a];
   std::mt19937 seed;
@@ -19,14 +19,14 @@ int** RandomPic(const int a, const int b) {
   return arr;
 }
 
-double length(int* p1, int* p2) {
+double SideClass::length(int* p1, int* p2) {
   double result;
   result = (sqrt((p2[0] - p1[0]) * (p2[0] - p1[0]) +
                  (p2[1] - p1[1]) * (p2[1] - p1[1])));
   return result;
 }
 
-double cosinus(int* p1, int* p2, int* p3) {
+double SideClass::cosinus(int* p1, int* p2, int* p3) {
   double result;
   double ax = p2[0] - p1[0];
   double ay = p2[1] - p1[1];
@@ -37,7 +37,7 @@ double cosinus(int* p1, int* p2, int* p3) {
   return result;
 }
 
-std::vector<int*> jarvis(int** convex_arr, int n) {
+std::vector<int*> MainClass::jarvis(int** convex_arr, int n) {
   SideClass sc;
   std::vector<int*> res;
   if (n == 1) {
@@ -99,7 +99,7 @@ std::vector<int*> jarvis(int** convex_arr, int n) {
   return res;
 }
 
-std::vector<int*> getComp(int** arr, int n, int m,
+std::vector<int*> MainClass::getComp(int** arr, int n, int m,
                                           int*** convex_arr, int* num) {
   MainClass mc;
   int x = 0, y = 0, bf = 1;
@@ -167,7 +167,7 @@ std::vector<int*> getComp(int** arr, int n, int m,
   return res;
 }
 
-std::vector<int*> jarvis_TBB(int** convex_arr, int n) {
+std::vector<int*> MainClass::jarvis_TBB(int** convex_arr, int n) {
   SideClass sc;
   std::vector<int*> res;
   if (n == 1) {
@@ -230,7 +230,7 @@ std::vector<int*> jarvis_TBB(int** convex_arr, int n) {
   return res;
 }
 
-std::vector<int*> getComponent_TBB(int** arr, int n, int m,
+std::vector<int*> MainClass::getComponent_TBB(int** arr, int n, int m,
                                               int*** convex_arr, int* num,
                                               int num_thr) {
   MainClass mc;
@@ -309,7 +309,7 @@ std::vector<int*> getComponent_TBB(int** arr, int n, int m,
   return res;
 }
 
-std::vector<int*> inside(std::vector<int*> root, int** convex_arr,
+std::vector<int*> MainClass::inside(std::vector<int*> root, int** convex_arr,
                                     int n) {
   std::vector<int*> v_first;
   std::vector<int> v_sec;
