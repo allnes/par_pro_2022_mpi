@@ -55,6 +55,6 @@ std::vector<int> GetSumColsParallel(const std::vector<int>& matrix, const int ro
     MPI_Scatter(Matrix.data(), Rows * Cols, MPI_INT, Buffer.data(), Rows * Cols, MPI_INT, 0, MPI_COMM_WORLD);
     std::vector<int>Sum(Cols);
     std::vector<int> tmpSum = GetSumCols(Buffer, Rows, Cols);
-    MPI_Gather(tmpSum.data(), Cols, MPI_INT, Sum.data(), Cols, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Reduce(tmpSum.data(), Sum.data(), Cols, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
     return Sum;
 }
