@@ -71,7 +71,6 @@ void LastPass(double *source, double *dest, int size, int offset) {
 void Merge(double *source1, int size1, double *source2, int size2,
            double *dest) {
   int i = 0, j = 0, k = 0;
-
   while ((i < size1) && (j < size2)) {
     if (source1[i] < source2[j]) {
       dest[k] = source1[i];

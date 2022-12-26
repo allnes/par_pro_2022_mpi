@@ -3,7 +3,6 @@
 #include "../../../modules/task_3/kosterin_a_double_sort_merge/double_sort_merge.h"
 #include <gtest-mpi-listener.hpp>
 
-
 TEST(Sort_Merge_MPI, sort_vector_positive) {
   int rank = 0;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
