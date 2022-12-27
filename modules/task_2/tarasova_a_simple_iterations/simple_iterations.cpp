@@ -22,20 +22,20 @@ std::vector<std::vector<double>> CreateMatrix(const int size) {
     return Matrix;
 }
 
-std::vector<double> GetSimpleIter(std::vector<std::vector<double>> a, std::vector<double> b,
+std::vector<double> GetSimpleIter(const std::vector<std::vector<double>>& a, const std::vector<double>& b,
     const int size, const double eps) {
-    std::vector<double> answ(size);
+    std::vector<double> answ(size), A = a, B = b;
     for (int i = 0; i < size; i++) {
-        double divid = a.at(i).at(i);
+        double divid = A.at(i).at(i);
         if (divid < 0)
-            b.at(i) /= -divid;
+            B.at(i) /= -divid;
         else
-            b.at(i) /= divid;
+            B.at(i) /= divid;
         for (int j = 0; j < size; j++) {
             if (i != j) {
-                a.at(i).at(j) /= (divid < 0) ? divid : -divid;
+                A.at(i).at(j) /= (divid < 0) ? divid : -divid;
             } else {
-                a.at(i).at(j) = 0;
+                A.at(i).at(j) = 0;
             }
         }
     }
@@ -48,9 +48,9 @@ std::vector<double> GetSimpleIter(std::vector<std::vector<double>> a, std::vecto
         }
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                pansw.at(i) += a.at(i).at(j) * answ.at(j);
+                pansw.at(i) += A.at(i).at(j) * answ.at(j);
             }
-            pansw.at(i) += b.at(i);
+            pansw.at(i) += B.at(i);
         }
 
         flag = true;
