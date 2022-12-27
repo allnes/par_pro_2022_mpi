@@ -64,8 +64,9 @@ std::vector<double> GetSimpleIter(const std::vector<std::vector<double>>& a, con
 }
 
 
-std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>> a, const std::vector<double> b,
+std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>& a, const std::vector<double>& b,
     const int size, const double eps) {
+    std::vector<std::vector<double>> A = a, B = b;
     int ProcCount, ProcId;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcCount);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcId);
@@ -80,8 +81,8 @@ std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>
         int Asize = size * size + size;
         Adata.reserve(Asize);
         for (int i = 0; i < size; i++) {
-            a.at(i).push_back(b.at(i));
-            Adata.insert(Adata.end(), a.at(i).begin(), a.at(i).end());
+            A.at(i).push_back(B.at(i));
+            Adata.insert(Adata.end(), A.at(i).begin(), A.at(i).end());
         }
 
         for (int i = 0; i < size % ProcCount; i++)
