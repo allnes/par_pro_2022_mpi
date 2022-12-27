@@ -22,7 +22,7 @@ std::vector<int> getRandVect(int size) {
   return vect;
 }
 
-int getSeriallOps(const std::vector<int> vect) {
+int getSeriallOps(const std::vector<int> &vect) {
   int sz = vect.size();
   int Minimal_Diff = INT_MAX;
   if (sz != 0) {
@@ -37,7 +37,7 @@ int getSeriallOps(const std::vector<int> vect) {
   return Minimal_Diff;
 }
 
-int getParallelOps(const std::vector<int> vect_glob) {
+int getParallelOps(const std::vector<int> &vect_glob) {
   int Minimal_Diff = INT_MAX;
   int sz, level;
 
