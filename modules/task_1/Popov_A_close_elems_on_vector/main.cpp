@@ -1,10 +1,9 @@
 // Copyright 2022 Popov Andrey
-#include "../../../modules/task_1/Popov_A_close_elems_on_vector/close_elems_on_vector.h"
 #include <gtest/gtest.h>
-
 #include <gtest-mpi-listener.hpp>
-#include <random>
-#include <vector>
+#include "../../../modules/task_1/Popov_A_close_elems_on_vector/close_elems_on_vector.h"
+
+
 
 
 
