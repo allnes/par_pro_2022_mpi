@@ -103,11 +103,12 @@ std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>
         else
             Procdata.at(BIndex) /= divid;
         for (int j = i; j < i + Size - 1; j++) {
-            if (j != Index + i)
+            if (j != Index + i) {
                 if (divid < 0)
                     Procdata.at(j) /= divid;
                 else
                     Procdata.at(j) /= -divid;
+            }
             else
                 Procdata.at(j) = 0;
         }
