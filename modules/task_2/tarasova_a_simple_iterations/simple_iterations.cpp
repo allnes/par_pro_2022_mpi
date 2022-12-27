@@ -7,9 +7,8 @@ std::vector<double> CreateVector(const int size, const int min, const int max) {
     std::mt19937 random(rand_r());
     std::uniform_real_distribution<double> dist(min, max);
     std::vector<double> Vector(size);
-    for (int i = 0; i < size; i++) { 
-        Vector.at(i) = dist(random); 
-    }
+    for (int i = 0; i < size; i++)
+        Vector.at(i) = dist(random);
     return Vector;
 }
 
@@ -23,7 +22,8 @@ std::vector<std::vector<double>> CreateMatrix(const int size) {
     return Matrix;
 }
 
-std::vector<double> GetSimpleIter(std::vector<std::vector<double>>& a, std::vector<double>& b, const int size, const double eps) {
+std::vector<double> GetSimpleIter(const std::vector<std::vector<double>>& a, const std::vector<double>& b,
+    const int size, const double eps) {
     std::vector<double> answ(size);
     for (int i = 0; i < size; i++) {
         double divid = a.at(i).at(i);
@@ -31,7 +31,6 @@ std::vector<double> GetSimpleIter(std::vector<std::vector<double>>& a, std::vect
             b.at(i) /= -divid;
         else
             b.at(i) /= divid;
-        
         for (int j = 0; j < size; j++) {
             if (i != j) {
                 if (divid < 0)
@@ -39,9 +38,8 @@ std::vector<double> GetSimpleIter(std::vector<std::vector<double>>& a, std::vect
                 else
                     a.at(i).at(j) /= -divid;
             }
-            else {
+            else 
                 a.at(i).at(j) = 0;
-            }
         }
     }
     std::vector<double> pansw = b;
@@ -69,7 +67,8 @@ std::vector<double> GetSimpleIter(std::vector<std::vector<double>>& a, std::vect
 }
 
 
-std::vector<double> GetSimpleIterParallel(std::vector<std::vector<double>>& a, std::vector<double>& b, const int size, const double eps) {
+std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>& a, const std::vector<double>& b,
+    const int size, const double eps) {
     int ProcCount, ProcId;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcCount);
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcId);
@@ -93,8 +92,8 @@ std::vector<double> GetSimpleIterParallel(std::vector<std::vector<double>>& a, s
         for (int i = 1; i < ProcCount; i++)
             Offsets.at(i) = Offsets.at(i - 1) + Counts.at(i - 1);
     }
-    MPI_Scatterv(Adata.data(), Counts.data(), Offsets.data(), MPI_DOUBLE, Procdata.data(), np, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
+    MPI_Scatterv(Adata.data(), Counts.data(), Offsets.data(), MPI_DOUBLE, Procdata.data(),
+        np, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     int Index = (size / ProcCount) * ProcId + std::min(ProcId, size % ProcCount);
     int Size = size + 1;
     for (int i = 0; i < np; i += Size) {
@@ -108,13 +107,9 @@ std::vector<double> GetSimpleIterParallel(std::vector<std::vector<double>>& a, s
             if (j != Index + i) {
                 if (divid < 0)
                     Procdata.at(j) /= divid;
-                else
-                    Procdata.at(j) /= -divid;
-                
+                else Procdata.at(j) /= -divid;
             }
-            else {
-                Procdata.at(j) = 0;
-            }
+            else Procdata.at(j) = 0;
         }
         Index++;
     }
@@ -133,14 +128,16 @@ std::vector<double> GetSimpleIterParallel(std::vector<std::vector<double>>& a, s
         Offsets.at(i) = Offsets.at(i - 1) + Counts.at(i - 1);
 
 
-    MPI_Allgatherv(psansw.data(), psansw.size(), MPI_DOUBLE, answ.data(), Counts.data(), Offsets.data(), MPI_DOUBLE, MPI_COMM_WORLD);
+    MPI_Allgatherv(psansw.data(), psansw.size(), MPI_DOUBLE, answ.data(), Counts.data(), Offsets.data(),
+        MPI_DOUBLE, MPI_COMM_WORLD);
 
     pransw = answ;
     bool flag = false;
     int step = 0;
     while (!flag) {
         if (step > 0) {
-            MPI_Allgatherv(psansw.data(), psansw.size(), MPI_DOUBLE, answ.data(), Counts.data(), Offsets.data(), MPI_DOUBLE, MPI_COMM_WORLD);
+            MPI_Allgatherv(psansw.data(), psansw.size(), MPI_DOUBLE, answ.data(), Counts.data(), Offsets.data(),
+                MPI_DOUBLE, MPI_COMM_WORLD);
             flag = true;
             for (int i = 0; i < size - 1; i++) {
                 if (std::abs(pransw.at(i) - answ.at(i)) > eps) {
