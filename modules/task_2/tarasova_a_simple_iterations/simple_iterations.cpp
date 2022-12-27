@@ -106,8 +106,9 @@ std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>
             if (j != Index + i) {
                 if (divid < 0)
                     Procdata.at(j) /= divid;
-                else
+                else {
                     Procdata.at(j) /= -divid;
+                }
             } else
                 Procdata.at(j) = 0;
         }
