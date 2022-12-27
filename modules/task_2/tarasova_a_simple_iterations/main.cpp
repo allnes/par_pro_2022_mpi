@@ -7,7 +7,6 @@
 void SimpleIterationsTest(const int min, const int max, const int size, const double eps) {
     int ProcId;
     MPI_Comm_rank(MPI_COMM_WORLD, &ProcId);
-    int size = 7;
     std::vector<std::vector<double>> A;
     std::vector<double> B;
 
