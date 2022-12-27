@@ -1,6 +1,6 @@
 // Copyright 2022 Elistratov Vladimir
-#ifndef MODULES_TASK_3_ELISTRATOV_V_BETCHER_SORT_BETCHERSORT_H_
-#define MODULES_TASK_3_ELISTRATOV_V_BETCHER_SORT_BETCHERSORT_H_
+#ifndef MODULES_TASK_3_ELISTRATOV_V_BETCHER_SORT_BETCHER_SORT_H_
+#define MODULES_TASK_3_ELISTRATOV_V_BETCHER_SORT_BETCHER_SORT_H_
 #include <mpi.h>
 
 #include <algorithm>
@@ -20,4 +20,4 @@ bool degree(int n);
 std::vector<int> SequentialRadixSort(std::vector<int> vec);
 std::vector<int> BetcherMerge(std::vector<int> vec, int n);
 
-#endif  // MODULES_TASK_3_ELISTRATOV_V_BETCHER_SORT_BETCHERSORT_H_
+#endif  // MODULES_TASK_3_ELISTRATOV_V_BETCHER_SORT_BETCHER_SORT_H_

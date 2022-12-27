@@ -1,9 +1,9 @@
 // Copyright 2022 Elistratov Vladimir
 
 #include <gtest/gtest.h>
-#include <gtest-mpi-listener.hpp>
 #include <vector>
 #include "./betcher_sort.h"
+#include <gtest-mpi-listener.hpp>
 
 TEST(Radix_Sort_Merge_Batcher, TEST_10) {
   int ProcRank;
