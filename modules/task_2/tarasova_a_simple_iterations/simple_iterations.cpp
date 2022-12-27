@@ -22,7 +22,7 @@ std::vector<std::vector<double>> CreateMatrix(const int size) {
     return Matrix;
 }
 
-std::vector<double> GetSimpleIter(std::vector<std::vector<double>>& a, std::vector<double>& b,
+std::vector<double> GetSimpleIter(std::vector<std::vector<double>> a, std::vector<double> b,
     const int size, const double eps) {
     std::vector<double> answ(size);
     for (int i = 0; i < size; i++) {
@@ -64,7 +64,7 @@ std::vector<double> GetSimpleIter(std::vector<std::vector<double>>& a, std::vect
 }
 
 
-std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>& a, const std::vector<double>& b,
+std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>> a, const std::vector<double> b,
     const int size, const double eps) {
     int ProcCount, ProcId;
     MPI_Comm_size(MPI_COMM_WORLD, &ProcCount);
