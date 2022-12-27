@@ -2,14 +2,14 @@
 #include "../../../modules/task_1/Popov_A_close_elems_on_vector/close_elems_on_vector.h"
 
 #include <mpi.h>
-#include <stdio.h>
+
 
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <ctime>
+
 #include <random>
-#include <string>
+
 #include <vector>
 
 std::vector<int> getRandVect(int size) {
