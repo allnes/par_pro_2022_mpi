@@ -13,11 +13,11 @@ int* getRandArrInt(int Arrsize) {
   if (Arrsize <= 0) throw std::runtime_error("Error Array size");
   std::mt19937 gen;
   gen.seed(static_cast<unsigned int>(time(0)));
-  int* localBuffer = reinterpret_cast<int*>(malloc(sizeof(int) * Arrsize));
+  int* lclBf = reinterpret_cast<int*>(malloc(sizeof(int) * Arrsize));
   for (int j = 0; j < Arrsize; j++) {
-    localBuffer[j] = gen() % 100;
+    lclBf[j] = gen() % 100;
   }
-  return localBuffer;
+  return lclBf;
 }
 
 double* getRandArrDouble(int Arrsize) {
