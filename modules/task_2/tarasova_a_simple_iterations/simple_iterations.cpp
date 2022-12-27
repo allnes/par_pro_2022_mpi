@@ -29,16 +29,15 @@ std::vector<double> GetSimpleIter(const std::vector<std::vector<double>>& a, con
         double divid = a.at(i).at(i);
         if (divid < 0)
             b.at(i) /= -divid;
-        else 
+        else
             b.at(i) /= divid;
         for (int j = 0; j < size; j++) {
             if (i != j) {
                 if (divid < 0)
                 a.at(i).at(j) /= divid;
-                else 
+                else
                     a.at(i).at(j) /= -divid;
-            }
-            else 
+            } else
                 a.at(i).at(j) = 0;
         }
     }
@@ -107,10 +106,9 @@ std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>
             if (j != Index + i) {
                 if (divid < 0)
                     Procdata.at(j) /= divid;
-                else 
+                else
                     Procdata.at(j) /= -divid;
-            }
-            else 
+            } else
                 Procdata.at(j) = 0;
         }
         Index++;
