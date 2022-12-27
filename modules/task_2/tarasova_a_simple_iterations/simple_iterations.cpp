@@ -35,10 +35,8 @@ std::vector<double> GetSimpleIter(const std::vector<std::vector<double>>& a, con
             if (i != j) {
                 if (divid < 0)
                     a.at(i).at(j) /= divid;
-                else
-                    a.at(i).at(j) /= -divid;
-            } else
-                a.at(i).at(j) = 0;
+                else { a.at(i).at(j) /= -divid; }
+            } else { a.at(i).at(j) = 0; }
         }
     }
     std::vector<double> pansw = b;
@@ -106,11 +104,8 @@ std::vector<double> GetSimpleIterParallel(const std::vector<std::vector<double>>
             if (j != Index + i) {
                 if (divid < 0)
                     Procdata.at(j) /= divid;
-                else {
-                    Procdata.at(j) /= -divid;
-                }
-            } else
-                Procdata.at(j) = 0;
+                else { Procdata.at(j) /= -divid;}
+            } else { Procdata.at(j) = 0; }
         }
         Index++;
     }
