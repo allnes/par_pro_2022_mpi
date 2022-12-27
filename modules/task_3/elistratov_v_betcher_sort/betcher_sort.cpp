@@ -2,6 +2,7 @@
 #include "../../../modules/task_3/elistratov_v_betcher_sort/betcher_sort.h"
 
 #include <mpi.h>
+
 #include <algorithm>
 #include <random>
 #include <string>
@@ -93,8 +94,8 @@ std::vector<int> EvenSpliter(std::vector<int> vec1, std::vector<int> vec2,
 
 std::vector<int> SimpleComparator(std::vector<int> res, std::vector<int> even,
                                   std::vector<int> odd) {
-  int sizeArray = static_cast<int>(even.size());
-  res = std::vector<int>(sizeArray);
+  int size = static_cast<int>(even.size());
+  res = std::vector<int>(size);
   for (int i = 0; i < static_cast<int>(odd.size()); i++) {
     if ((i % 2 != 0) && (odd[i] != 0)) {
       res[i] = odd[i];
@@ -110,7 +111,7 @@ std::vector<int> SimpleComparator(std::vector<int> res, std::vector<int> even,
   return res;
 }
 
-std::vector<int> GenRandVector(int n) {
+std::vector<int> genRand(int n) {
   std::mt19937 gen;
   gen.seed(static_cast<unsigned int>(time(0)));
   std::vector<int> vec(n);
@@ -120,7 +121,7 @@ std::vector<int> GenRandVector(int n) {
   return vec;
 }
 
-bool degree(int n) {
+bool degree_2(int n) {
   int k = 1;
   while (k < n) {
     k *= 2;
@@ -161,29 +162,30 @@ std::vector<int> BetcherMerge(std::vector<int> vec, int n) {
   }
   int Delta = n / ProcNum;
   int ost = n % ProcNum;
-  std::vector<int> vec(Delta);
+  std::vector<int> localvector(Delta);
   if (ProcRank == 0) {
-    vec.resize(Delta + ost);
-    vec = std::vector<int>(vec.begin(), vec.begin() + ost + Delta);
+    localvector.resize(Delta + ost);
+    localvector = std::vector<int>(vec.begin(), vec.begin() + ost + Delta);
     for (int i = 1; i < ProcNum; i++) {
       MPI_Send(vec.data() + Delta * i + ost, Delta, MPI_INT, i, 0,
                MPI_COMM_WORLD);
     }
   } else {
     MPI_Status status;
-    MPI_Recv(vec.data(), Delta, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+    MPI_Recv(localvector.data(), Delta, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
   }
-  vec = SequentialRadixSort(vec);
+  localvector = SequentialRadixSort(localvector);
   if (ProcRank % 2 != 0) {
     std::vector<int> result;
-    MPI_Send(vec.data(), Delta, MPI_INT, ProcRank - 1, 1, MPI_COMM_WORLD);
+    MPI_Send(localvector.data(), Delta, MPI_INT, ProcRank - 1, 1,
+             MPI_COMM_WORLD);
     MPI_Status status;
     int count;
     (ProcRank - 1 == 0) ? count = Delta + ost : count = Delta;
     std::vector<int> getvec(count);
     MPI_Recv(getvec.data(), count, MPI_INT, ProcRank - 1, 1, MPI_COMM_WORLD,
              &status);
-    result = OddSpliter(getvec, vec, result);
+    result = OddSpliter(getvec, localvector, result);
     MPI_Send(result.data(), static_cast<int>(result.size()), MPI_INT,
              ProcRank - 1, 1, MPI_COMM_WORLD);
   }
@@ -195,66 +197,68 @@ std::vector<int> BetcherMerge(std::vector<int> vec, int n) {
              &status);
     int count;
     (ProcRank == 0) ? count = Delta + ost : count = Delta;
-    MPI_Send(vec.data(), count, MPI_INT, ProcRank + 1, 1, MPI_COMM_WORLD);
-    result = EvenSpliter(getvec, vec, result);
+    MPI_Send(localvector.data(), count, MPI_INT, ProcRank + 1, 1,
+             MPI_COMM_WORLD);
+    result = EvenSpliter(getvec, localvector, result);
     MPI_Status status2;
     std::vector<int> res(static_cast<int>(result.size()));
     MPI_Recv(res.data(), static_cast<int>(result.size()), MPI_INT, ProcRank + 1,
              1, MPI_COMM_WORLD, &status2);
-    vec = SimpleComparator(vec, result, res);
+    localvector = SimpleComparator(localvector, result, res);
   }
-  if ((ProcRank % 2 == 0) && (degree(ProcRank) == false) && (ProcRank != 0)) {
+  if ((ProcRank % 2 == 0) && (degree_2(ProcRank) == false) && (ProcRank != 0)) {
     int off = ProcRank;
     int shift = 0;
-    while (degree(off) == false) {
+    while (degree_2(off) == false) {
       off--;
       shift++;
     }
-    int dim = static_cast<int>(vec.size());
+    int dim = static_cast<int>(localvector.size());
     int dim2;
     MPI_Send(&dim, 1, MPI_INT, ProcRank - shift, 3, MPI_COMM_WORLD);
     MPI_Status status1;
     MPI_Recv(&dim2, 1, MPI_INT, ProcRank - shift, 3, MPI_COMM_WORLD, &status1);
     std::vector<int> getvec(dim2);
-    MPI_Send(vec.data(), dim, MPI_INT, ProcRank - shift, 3, MPI_COMM_WORLD);
+    MPI_Send(localvector.data(), dim, MPI_INT, ProcRank - shift, 3,
+             MPI_COMM_WORLD);
     MPI_Status status;
     MPI_Recv(getvec.data(), dim2, MPI_INT, ProcRank - shift, 3, MPI_COMM_WORLD,
              &status);
     std::vector<int> result(dim + dim2);
-    result = OddSpliter(getvec, vec, result);
+    result = OddSpliter(getvec, localvector, result);
     MPI_Send(result.data(), dim + dim2, MPI_INT, ProcRank - shift, 3,
              MPI_COMM_WORLD);
   }
-  if ((degree(ProcRank) == true) && (ProcRank + 2 < ProcNum) &&
-      (degree(ProcRank + 2) == false) && (ProcRank % 2 == 0)) {
+  if ((degree_2(ProcRank) == true) && (ProcRank + 2 < ProcNum) &&
+      (degree_2(ProcRank + 2) == false) && (ProcRank % 2 == 0)) {
     int off = ProcRank;
     int shift = 2;
-    while ((degree(off + shift) == false) && ((off + shift) < ProcNum)) {
+    while ((degree_2(off + shift) == false) && ((off + shift) < ProcNum)) {
       MPI_Status status;
       int dim2;
       MPI_Recv(&dim2, 1, MPI_INT, ProcRank + shift, 3, MPI_COMM_WORLD, &status);
       std::vector<int> getvec(dim2);
-      int dim = static_cast<int>(vec.size());
+      int dim = static_cast<int>(localvector.size());
       MPI_Send(&dim, 1, MPI_INT, ProcRank + shift, 3, MPI_COMM_WORLD);
       MPI_Status status1;
       MPI_Recv(getvec.data(), dim2, MPI_INT, ProcRank + shift, 3,
                MPI_COMM_WORLD, &status1);
       std::vector<int> result(dim + dim2);
-      result = EvenSpliter(getvec, vec, result);
-      MPI_Send(vec.data(), dim, MPI_INT, ProcRank + shift, 3,
+      result = EvenSpliter(getvec, localvector, result);
+      MPI_Send(localvector.data(), dim, MPI_INT, ProcRank + shift, 3,
                MPI_COMM_WORLD);
       std::vector<int> res(dim + dim2);
       MPI_Status status3;
       MPI_Recv(res.data(), dim + dim2, MPI_INT, ProcRank + shift, 3,
                MPI_COMM_WORLD, &status3);
-      vec = SimpleComparator(vec, result, res);
+      localvector = SimpleComparator(localvector, result, res);
       shift += 2;
     }
   }
-  if ((degree(ProcRank) == true) && (ProcRank != 0) && (ProcRank % 2 == 0)) {
-    int dim = static_cast<int>(vec.size());
+  if ((degree_2(ProcRank) == true) && (ProcRank != 0) && (ProcRank % 2 == 0)) {
+    int dim = static_cast<int>(localvector.size());
     MPI_Send(&dim, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
-    MPI_Send(vec.data(), dim, MPI_INT, 0, 1, MPI_COMM_WORLD);
+    MPI_Send(localvector.data(), dim, MPI_INT, 0, 1, MPI_COMM_WORLD);
   }
   if (ProcRank == 0) {
     int count = 2;
@@ -265,15 +269,15 @@ std::vector<int> BetcherMerge(std::vector<int> vec, int n) {
       std::vector<int> getvec(dim2);
       MPI_Status status;
       MPI_Recv(getvec.data(), dim2, MPI_INT, count, 1, MPI_COMM_WORLD, &status);
-      std::vector<int> result(dim2 + static_cast<int>(vec.size()));
-      result = EvenSpliter(getvec, vec, result);
-      result = OddSpliter(getvec, vec, result);
-      int dim = static_cast<int>(vec.size());
-      vec.resize(dim + dim2);
-      vec = result;
-      vec = SimpleComparator(vec, result, result);
+      std::vector<int> result(dim2 + static_cast<int>(localvector.size()));
+      result = EvenSpliter(getvec, localvector, result);
+      result = OddSpliter(getvec, localvector, result);
+      int dim = static_cast<int>(localvector.size());
+      localvector.resize(dim + dim2);
+      localvector = result;
+      localvector = SimpleComparator(localvector, result, result);
       count *= 2;
     }
   }
-  return vec;
+  return localvector;
 }

@@ -10,7 +10,7 @@ TEST(Radix_Sort_Merge_Batcher, TEST_10) {
   MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
   std::vector<int> vec;
   const int n = 10;
-  vec = GenRandVector(n);
+  vec = genRand(n);
   std::vector<int> vec1 = BetcherMerge(vec, n);
   if (ProcRank == 0) {
     std::vector<int> vec2 = SequentialRadixSort(vec);
@@ -22,7 +22,7 @@ TEST(Radix_Sort_Merge_Batcher, TEST_40) {
   MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
   std::vector<int> vec;
   int n = 40;
-  vec = GenRandVector(n);
+  vec = genRand(n);
   std::vector<int> vec1 = BetcherMerge(vec, n);
   if (ProcRank == 0) {
     std::vector<int> vec2 = SequentialRadixSort(vec);
@@ -34,7 +34,7 @@ TEST(Radix_Sort_Merge_Batcher, TEST_50) {
   MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
   std::vector<int> vec;
   int n = 50;
-  vec = GenRandVector(n);
+  vec = genRand(n);
   std::vector<int> vec1 = BetcherMerge(vec, n);
   if (ProcRank == 0) {
     std::vector<int> vec2 = SequentialRadixSort(vec);
@@ -46,7 +46,7 @@ TEST(Radix_Sort_Merge_Batcher, TEST_100) {
   MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
   std::vector<int> vec;
   int n = 100;
-  vec = GenRandVector(n);
+  vec = genRand(n);
   std::vector<int> vec1 = BetcherMerge(vec, n);
   if (ProcRank == 0) {
     std::vector<int> vec2 = SequentialRadixSort(vec);
@@ -58,7 +58,7 @@ TEST(Radix_Sort_Merge_Batcher, TEST_1000) {
   MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
   std::vector<int> vec;
   int n = 1000;
-  vec = GenRandVector(n);
+  vec = genRand(n);
   std::vector<int> vec1 = BetcherMerge(vec, n);
   if (ProcRank == 0) {
     std::vector<int> vec2 = SequentialRadixSort(vec);
