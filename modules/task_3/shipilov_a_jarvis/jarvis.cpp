@@ -94,7 +94,7 @@ vector<Point2d> ParallelJarvis(const vector<Point2d>& vecVertex, vector<int>::si
 
         if (rank != 0) {
             MPI_Send(localJarvis.data(), localJarvis.size(), stPoint2d, 0, 0, MPI_COMM_WORLD);
-        } else { 
+        } else {
             for (int i = 1; i < size; i++) {
                 MPI_Status status;
                 int elements = 0;
