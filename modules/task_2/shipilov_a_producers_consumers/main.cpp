@@ -19,8 +19,7 @@ void test_producers_consumers(int size1, int size2) {
             for (int i = 0; i < size2; i++) {
                 Producers();
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < size1; i++) {
                 Consumers();
             }
