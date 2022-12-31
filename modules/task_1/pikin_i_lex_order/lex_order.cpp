@@ -6,7 +6,6 @@
 #include <iostream>
 #include "../../../modules/task_1/pikin_i_lex_order/lex_order.h"
 
-
 std::string getStrFromRes(Result result) {
     if (result == Result::equal)
         return std::string("equel");
@@ -33,8 +32,8 @@ std::string getRandomString(const int strSize) {
 }
 
 std::string changeSomeChars(std::string str,
-    size_t numChars) {  // change ~numChars of str chars
-    size_t size = str.size();
+    int numChars) {  // change ~numChars of str chars
+    int size = str.size();
     if (numChars > size) {
         numChars = size;
     }
@@ -46,9 +45,9 @@ std::string changeSomeChars(std::string str,
     std::uniform_int_distribution<int> char_position(0,
         size - 1);  // index of str
 
-    for (size_t i = 0; i < numChars; i++) {
+    for (int i = 0; i < numChars; i++) {
         char c = static_cast<char>(char_distribution(engine));
-        size_t pos = char_position(engine);
+        int pos = char_position(engine);
         str[pos] = c;
     }
     return str;
@@ -67,7 +66,7 @@ Result getSequentialCompare(const std::string& a, const std::string& b) {
 
 Result getParallelCompare(const std::string& a, const std::string& b) {
     int procNum, procRank;
-    size_t minLen, copyLen, delta;
+    int minLen, copyLen, delta;
     Result result;
     char* a_copy, * b_copy, * a_part, * b_part;
 
@@ -76,12 +75,11 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
 
     if (procRank == 0) {
         minLen = a.size() < b.size() ? a.size() : b.size();
-        size_t remainder = minLen % procNum;
+        int remainder = minLen % procNum;
 
         // addition to the original strings to
         // divide them into equal parts
-        size_t additionLen =
-            (procNum - remainder) % procNum;
+        int additionLen = (procNum - remainder) % procNum;
 
         copyLen = minLen + additionLen;
         delta = copyLen / procNum;
@@ -89,17 +87,18 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
         a_copy = new char[copyLen];
         b_copy = new char[copyLen];
         // initializing copies of strings
-        for (size_t i = 0; i < copyLen; i++) {
+        for (int i = 0; i < copyLen; i++) {
             if (i < minLen) {
                 a_copy[i] = a[i];
                 b_copy[i] = b[i];
-            } else {
+            }
+            else {
                 a_copy[i] = 'a';  // neutral addition
                 b_copy[i] = 'a';  // neutral addition
             }
         }
     }
-    MPI_Bcast(&delta, 1, MPI_UNSIGNED_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&delta, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
     a_part = new char[delta];
     b_part = new char[delta];
@@ -110,7 +109,7 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
         MPI_COMM_WORLD);
 
     // processing local parts of strings
-    for (size_t i = 0; i < delta; i++) {
+    for (int i = 0; i < delta; i++) {
         if (a_part[i] < b_part[i]) {
             result = Result::less_than;
             goto next;  // just skipping "equel" init
@@ -123,14 +122,18 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
     result = Result::equal;
 next:
     int int_result = static_cast<int>(result);
+    int* allResultsPtr;
 
     if (procRank == 0) {
-        std::vector<int> allResults(procNum);
-        MPI_Gather(&int_result, 1, MPI_INT, allResults.data(), 1, MPI_INT, 0,
-            MPI_COMM_WORLD);
+        allResultsPtr = new int[procNum];
+    }
 
-        std::cout << "Vector allResults:\n";
-        for (int i = 0; i < procNum; i++) std::cout << allResults[i] << " ";
+    MPI_Gather(&int_result, 1, MPI_INT, allResultsPtr, 1, MPI_INT, 0,
+        MPI_COMM_WORLD);
+
+    if (procRank == 0) {
+        std::cout << "Array allResults:\n";
+        for (int i = 0; i < procNum; i++) std::cout << allResultsPtr[i] << " ";
         std::cout << std::endl;
 
         // delete copies
@@ -140,15 +143,27 @@ next:
         delete[] b_part;
 
         for (int i = 0; i < procNum; i++) {
-            if (allResults[i] == 0) return Result::less_than;
-            if (allResults[i] == 2) return Result::greater_than;
+            if (allResultsPtr[i] == 0) {
+                delete[] allResultsPtr;
+                return Result::less_than;
+            }
+            if (allResultsPtr[i] == 2) {
+                delete[] allResultsPtr;
+                return Result::greater_than;
+            }
         }
-        if (a.size() < b.size()) return Result::less_than;
-        if (a.size() > b.size()) return Result::greater_than;
+        if (a.size() < b.size()) {
+            delete[] allResultsPtr;
+            return Result::less_than;
+        }
+        if (a.size() > b.size()) {
+            delete[] allResultsPtr;
+            return Result::greater_than;
+        }
+        delete[] allResultsPtr;
         return Result::equal;
-    } else {
-        MPI_Gather(&int_result, 1, MPI_INT, 0, 0, 0,  // Not important
-            0, MPI_COMM_WORLD);
+    }
+    else {
         delete[] a_part;
         delete[] b_part;
         return result;

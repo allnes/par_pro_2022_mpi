@@ -9,7 +9,7 @@ enum class Result { less_than, equal, greater_than };
 
 std::string getStrFromRes(Result result);
 std::string getRandomString(const int strSize);
-std::string changeSomeChars(std::string str, size_t numChars);
+std::string changeSomeChars(std::string str, int numChars);
 Result getSequentialCompare(const std::string& a, const std::string& b);
 Result getParallelCompare(const std::string& a, const std::string& b);
 
