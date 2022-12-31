@@ -29,7 +29,11 @@ TEST(Parallel_Comparison, Small_test) {
             << " B" << std::endl;
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
     Result parallelResult = getParallelCompare(s1, s2);
+    MPI_Barrier(MPI_COMM_WORLD);
+    std::cout << "End of Parallel compare, procRank = "
+        << rank << std::endl;
 
     if (rank == 0) {
         std::cout << "Parallel result: A is " << getStrFromRes(parallelResult)
@@ -62,7 +66,9 @@ TEST(Parallel_Comparison, Compare_strings_of_the_same_len) {
             << " B" << std::endl;
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
     Result parallelResult = getParallelCompare(s1, s2);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     if (rank == 0) {
         std::cout << "Parallel result: A is " << getStrFromRes(parallelResult)
@@ -94,7 +100,9 @@ TEST(Parallel_Comparison, A_is_greater_than_B) {
             << " B" << std::endl;
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
     Result parallelResult = getParallelCompare(s1, s2);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     if (rank == 0) {
         std::cout << "Parallel result: A is " << getStrFromRes(parallelResult)
@@ -127,7 +135,9 @@ TEST(Parallel_Comparison, A_is_less_than_B) {
             << " B" << std::endl;
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
     Result parallelResult = getParallelCompare(s1, s2);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     if (rank == 0) {
         std::cout << "Parallel result: A is " << getStrFromRes(parallelResult)
@@ -159,7 +169,9 @@ TEST(Parallel_Comparison, A_is_equal_B) {
             << " B" << std::endl;
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
     Result parallelResult = getParallelCompare(s1, s2);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     if (rank == 0) {
         std::cout << "Parallel result: A is " << getStrFromRes(parallelResult)
@@ -188,17 +200,22 @@ TEST(Parallel_Comparison, Compare_strings_with_diff_len) {
         s1 = std::string(s2, 0ll, 100000ll);
 
         sequentialResult = getSequentialCompare(s1, s2);
-        parallelResult = getParallelCompare(s1, s2);
-
         std::cout << "Sequential result: A is "
             << getStrFromRes(sequentialResult)
             << " B" << std::endl;
+    }
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    parallelResult = getParallelCompare(s1, s2);
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    if (rank == 0) {
         std::cout << "Parallel result: A is "
             << getStrFromRes(parallelResult)
             << " B" << std::endl;
 
         ASSERT_EQ(sequentialResult, parallelResult);
-    } else { getParallelCompare(s1, s2); }
+    }
 }
 
 /*  TEST(Parallel_Comparison, Time_test) {
