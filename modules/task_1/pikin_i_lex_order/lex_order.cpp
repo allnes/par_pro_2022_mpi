@@ -91,8 +91,7 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
             if (i < minLen) {
                 a_copy[i] = a[i];
                 b_copy[i] = b[i];
-            }
-            else {
+            } else {
                 a_copy[i] = 'a';  // neutral addition
                 b_copy[i] = 'a';  // neutral addition
             }
@@ -162,8 +161,7 @@ next:
         }
         delete[] allResultsPtr;
         return Result::equal;
-    }
-    else {
+    } else {
         delete[] a_part;
         delete[] b_part;
         return result;
