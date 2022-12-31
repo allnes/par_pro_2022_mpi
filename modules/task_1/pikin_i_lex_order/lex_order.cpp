@@ -72,7 +72,6 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
 
     MPI_Comm_size(MPI_COMM_WORLD, &procNum);
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
-    std::cout << "Mark 1: procRank = " << procRank << std::endl;
 
     if (procRank == 0) {
         minLen = a.size() < b.size() ? a.size() : b.size();
@@ -99,7 +98,6 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
         }
     }
     MPI_Bcast(&delta, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    std::cout << "Mark 2: procRank = " << procRank << std::endl;
 
     a_part = new char[delta];
     b_part = new char[delta];
@@ -108,7 +106,6 @@ Result getParallelCompare(const std::string& a, const std::string& b) {
         MPI_COMM_WORLD);
     MPI_Scatter(b_copy, delta, MPI_CHAR, b_part, delta, MPI_CHAR, 0,
         MPI_COMM_WORLD);
-    std::cout << "Mark 3: procRank = " << procRank << std::endl;
 
     // processing local parts of strings
     for (int i = 0; i < delta; i++) {
@@ -132,12 +129,12 @@ next:
 
     MPI_Gather(&int_result, 1, MPI_INT, allResultsPtr, 1, MPI_INT, 0,
         MPI_COMM_WORLD);
-    std::cout << "Mark 4: procRank = " << procRank << std::endl;
 
     if (procRank == 0) {
-        std::cout << "Array allResults:\n";
-        for (int i = 0; i < procNum; i++) std::cout << allResultsPtr[i] << " ";
-        std::cout << std::endl;
+        //  std::cout << "Array allResults:\n";
+        //  for (int i = 0; i < procNum; i++)
+        //      std::cout << allResultsPtr[i] << " ";
+        //  std::cout << std::endl;
 
         // delete copies
         delete[] a_copy;
