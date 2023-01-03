@@ -6,7 +6,7 @@
 #include <gtest-mpi-listener.hpp>
 #include "./broadcast.h"
 
-TEST(BROADCAST_TESTS, Int_type_test) {
+TEST(BROADCAST_TESTS_MPI, Int_type_test) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -22,7 +22,7 @@ TEST(BROADCAST_TESTS, Int_type_test) {
     ASSERT_EQ(number, 123456);
 }
 
-TEST(BROADCAST_TESTS, Float_type_test) {
+TEST(BROADCAST_TESTS_MPI, Float_type_test) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -38,7 +38,7 @@ TEST(BROADCAST_TESTS, Float_type_test) {
     ASSERT_EQ(number, 666.0f);
 }
 
-TEST(BROADCAST_TESTS, Double_type_test) {
+TEST(BROADCAST_TESTS_MPI, Double_type_test) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -54,7 +54,7 @@ TEST(BROADCAST_TESTS, Double_type_test) {
     ASSERT_EQ(number, 123456.0);
 }
 
-TEST(BROADCAST_TESTS, Array_broadcast_test) {
+TEST(BROADCAST_TESTS_MPI, Array_broadcast_test) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -98,7 +98,7 @@ TEST(BROADCAST_TESTS, Array_broadcast_test) {
     }
 }
 
-TEST(BROADCAST_TESTS, Root_test) {
+TEST(BROADCAST_TESTS_MPI, Root_test) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -120,7 +120,7 @@ TEST(BROADCAST_TESTS, Root_test) {
     }
 }
 
-TEST(BROADCAST_TESTS, Random_buffer_size_test) {
+TEST(BROADCAST_TESTS_MPI, Random_buffer_size_test) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -153,104 +153,104 @@ TEST(BROADCAST_TESTS, Random_buffer_size_test) {
     delete[] data;
 }
 
-// TEST(BROADCAST_TESTS, Time_test) {
-//    int rank, size;
-//    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-//    MPI_Comm_size(MPI_COMM_WORLD, &size);
-//
-//    int n = 10 * size, local_result = 0;
-//    double t1, t2;
-//    int* vec, * mat, * local_column, * result_vec1, *result_vec2;
-//
-//
-//    vec = new int[n];
-//    local_column = new int[n];
-//    result_vec1 = new int[size];
-//    result_vec2 = new int[size];
-//
-//    if (rank == 0) {
-//        std::random_device dev;
-//        std::mt19937 gen(dev());
-//
-//        mat = new int[n * size];
-//
-//        for (int i = 0; i < n; i++) {
-//            vec[i] = gen() % 100;
-//            /*std::cout << vec[i] << " ";*/
-//        }
-//        /*std::cout << std::endl;*/
-//        for (int i = 0; i < n * size; i++)
-//            mat[i] = gen() % 100;
-//
-//        /*for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < n; j++) {
-//                std::cout << mat[i * n + j] << " ";
-//            }
-//            std::cout << std::endl;
-//        }*/
-//
-//        t1 = MPI_Wtime();
-//    }
-//
-//    //  Test 1
-//    myBroadcast(vec, n, MPI_INT, 0, MPI_COMM_WORLD);
-//
-//    MPI_Scatter(mat, n, MPI_INT, local_column, n, MPI_INT,
-//        0, MPI_COMM_WORLD);
-//
-//    for (int i = 0; i < n; i++) {
-//        local_result += vec[i] * local_column[i];
-//    }
-//
-//    MPI_Gather(&local_result, 1, MPI_INT, result_vec1, 1, MPI_INT,
-//        0, MPI_COMM_WORLD);
-//
-//    local_result = 0;
-//    if (rank == 0) {
-//        t2 = MPI_Wtime();
-//        std::cout.precision(17);
-//        std::cout << std::fixed;
-//        std::cout << "myBroadcast time: " << t2 - t1 << "\n";
-//
-//        /*for (int i = 0; i < size; i++)
-//            std::cout << result_vec1[i] << " ";
-//        std::cout << std::endl;*/
-//
-//        t1 = MPI_Wtime();
-//    }
-//
-//    //  Test 2
-//    MPI_Bcast(vec, n, MPI_INT, 0, MPI_COMM_WORLD);
-//
-//    MPI_Scatter(mat, n, MPI_INT, local_column, n, MPI_INT,
-//        0, MPI_COMM_WORLD);
-//
-//    for (int i = 0; i < n; i++) {
-//        local_result += vec[i] * local_column[i];
-//    }
-//
-//    MPI_Gather(&local_result, 1, MPI_INT, result_vec2, 1, MPI_INT,
-//        0, MPI_COMM_WORLD);
-//
-//    local_result = 0;
-//    if (rank == 0) {
-//        t2 = MPI_Wtime();
-//        std::cout << "MPI_Bcast time: " << t2 - t1 << "\n";
-//
-//        /*for (int i = 0; i < size; i++)
-//            std::cout << result_vec2[i] << " ";
-//        std::cout << std::endl;*/
-//
-//        for (int i = 0; i < size; i++)
-//            ASSERT_EQ(result_vec1[i], result_vec2[i]);
-//        delete[] mat;
-//    }
-//
-//    delete[] vec;
-//    delete[] local_column;
-//    delete[] result_vec1;
-//    delete[] result_vec2;
-//}
+TEST(BROADCAST_TESTS_MPI, Time_test) {
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    int n = 10 * size, local_result = 0;
+    double t1, t2;
+    int* vec, * mat, * local_column, * result_vec1, *result_vec2;
+
+
+    vec = new int[n];
+    local_column = new int[n];
+    result_vec1 = new int[size];
+    result_vec2 = new int[size];
+
+    if (rank == 0) {
+        std::random_device dev;
+        std::mt19937 gen(dev());
+
+        mat = new int[n * size];
+
+        for (int i = 0; i < n; i++) {
+            vec[i] = gen() % 100;
+            /*std::cout << vec[i] << " ";*/
+        }
+        /*std::cout << std::endl;*/
+        for (int i = 0; i < n * size; i++)
+            mat[i] = gen() % 100;
+
+        /*for (int i = 0; i < size; i++) {
+            for (int j = 0; j < n; j++) {
+                std::cout << mat[i * n + j] << " ";
+            }
+            std::cout << std::endl;
+        }*/
+
+        t1 = MPI_Wtime();
+    }
+
+    //  Test 1
+    myBroadcast(vec, n, MPI_INT, 0, MPI_COMM_WORLD);
+
+    MPI_Scatter(mat, n, MPI_INT, local_column, n, MPI_INT,
+        0, MPI_COMM_WORLD);
+
+    for (int i = 0; i < n; i++) {
+        local_result += vec[i] * local_column[i];
+    }
+
+    MPI_Gather(&local_result, 1, MPI_INT, result_vec1, 1, MPI_INT,
+        0, MPI_COMM_WORLD);
+
+    local_result = 0;
+    if (rank == 0) {
+        t2 = MPI_Wtime();
+        std::cout.precision(17);
+        std::cout << std::fixed;
+        std::cout << "myBroadcast time: " << t2 - t1 << "\n";
+
+        /*for (int i = 0; i < size; i++)
+            std::cout << result_vec1[i] << " ";
+        std::cout << std::endl;*/
+
+        t1 = MPI_Wtime();
+    }
+
+    //  Test 2
+    MPI_Bcast(vec, n, MPI_INT, 0, MPI_COMM_WORLD);
+
+    MPI_Scatter(mat, n, MPI_INT, local_column, n, MPI_INT,
+        0, MPI_COMM_WORLD);
+
+    for (int i = 0; i < n; i++) {
+        local_result += vec[i] * local_column[i];
+    }
+
+    MPI_Gather(&local_result, 1, MPI_INT, result_vec2, 1, MPI_INT,
+        0, MPI_COMM_WORLD);
+
+    local_result = 0;
+    if (rank == 0) {
+        t2 = MPI_Wtime();
+        std::cout << "MPI_Bcast time: " << t2 - t1 << "\n";
+
+        /*for (int i = 0; i < size; i++)
+            std::cout << result_vec2[i] << " ";
+        std::cout << std::endl;*/
+
+        for (int i = 0; i < size; i++)
+            ASSERT_EQ(result_vec1[i], result_vec2[i]);
+        delete[] mat;
+    }
+
+    delete[] vec;
+    delete[] local_column;
+    delete[] result_vec1;
+    delete[] result_vec2;
+}
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
