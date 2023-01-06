@@ -7,9 +7,7 @@
 #define Vector std::vector<double>
 Vector getRandom(int sz);
 Vector MatrVecMult(const Vector& matrix, const Vector& vec);
-//void ParMatrVecMult(double* matrix, double* vec, double* result, int n);
-//Vector VecSum(const Vector& first, const Vector& second);
-//Vector VecDif(const Vector& first, const Vector& second);
+Vector ParMatrVecMult(const Vector& matrix, const Vector& vec, int m);
 double ScalMult(const Vector& first, const Vector& second);
 Vector getSeqSlauGrad(const Vector& A, const Vector& b, int n);
 Vector getParSlauGrad(const Vector& A, const Vector& b, int n);
