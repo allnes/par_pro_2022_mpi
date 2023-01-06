@@ -14,8 +14,6 @@ const int NOT_REQUIRED = 1;
 std::vector<int> GenRandMatrix(int m, int n) {
     std::random_device dev;
     std::mt19937 engn(dev());
-    engn.seed(static_cast<long unsigned int>(time(0)));
-
     std::vector<int> vec(m * n);
     for (int i = 0; i < (m * n); i++) {
         vec[i] = engn() % 200;
