@@ -140,7 +140,7 @@ Vector getParSlauGrad(const Vector& A, const Vector& b, int n) {
         A_part, p, sendcounts[rank]);  // because it needs part, not part * n
     MPI_Gatherv(matrxp_part.data(), sendcounts[rank], MPI_DOUBLE, matrxp.data(),
                 sendcounts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    //MPI_Scatterv(matrxp.data(), sendcounts, displs, MPI_DOUBLE,
+    // MPI_Scatterv(matrxp.data(), sendcounts, displs, MPI_DOUBLE,
     //             matrxp_part.data(), sendcounts[rank], MPI_DOUBLE, 0,
     //             MPI_COMM_WORLD);
     MPI_Bcast(matrxp.data(), n, MPI_DOUBLE, 0, MPI_COMM_WORLD);
