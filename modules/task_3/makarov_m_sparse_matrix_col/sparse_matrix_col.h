@@ -2,7 +2,6 @@
 #ifndef MODULES_TASK_3_MAKAROV_M_SPARSE_MATRIX_COL_SPARSE_MATRIX_COL_H_
 #define MODULES_TASK_3_MAKAROV_M_SPARSE_MATRIX_COL_SPARSE_MATRIX_COL_H_
 
-#include <iostream>
 #include <vector>
 
 struct ComprColStorage {

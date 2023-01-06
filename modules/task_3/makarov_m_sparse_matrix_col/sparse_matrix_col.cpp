@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <random>
+#include <iostream>
 #include <vector>
 
 ComprColStorage GenerateMatrix(int countRow, int countCol, double proc) {

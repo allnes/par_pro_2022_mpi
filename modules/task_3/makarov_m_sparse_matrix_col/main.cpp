@@ -1,8 +1,8 @@
 // Copyright 2022 Makarov Mikhail
-#include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include "./sparse_matrix_col.h"
+#include <gtest-mpi-listener.hpp>
 
 TEST(Produce_Matrix, can_create_random_matrix) {
   ASSERT_NO_THROW(GenerateMatrix(10, 10, 20.0));
