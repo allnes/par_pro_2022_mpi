@@ -91,8 +91,8 @@ std::vector<double> getResOfFoxMult(std::vector<double> first_matr, std::vector<
     // Data processing
     int block_size, blocks_in_row, new_matr_size;
     if (rank == 0) {
-        block_size = static_cast<int>ceil(sqrt(static_cast<double>(matr_size * matr_size) / size));
-        blocks_in_row = static_cast<int>round(sqrt(size));
+        block_size = static_cast<int>(ceil(sqrt(static_cast<double>(matr_size * matr_size) / size)));
+        blocks_in_row = static_cast<int>(round(sqrt(size)));
 
         int new_matr_size = block_size * blocks_in_row;
 
