@@ -1,8 +1,8 @@
 // Copyright 2022 Shvandyreva Alina
-#include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
 #include "../../modules/task_3/shvandyreva_a_quick_sort/quick_sort.h"
+#include <gtest-mpi-listener.hpp>
 
 
 TEST(Sequential_Operations_MPI, Test_1) {
