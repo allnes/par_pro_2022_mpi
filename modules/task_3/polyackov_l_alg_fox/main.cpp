@@ -17,7 +17,6 @@ TEST(Alg_Fox_MPI, Can_Control_Number_Of_Processes) {
     if (size == 2 || size == 3) {
         ASSERT_ANY_THROW(getResOfFoxMult(vec, vec, 2));
     }
-
 }
 
 TEST(Alg_Fox_MPI, No_Throw_Find_Mult_Of_An_Empty_Matr) {
@@ -95,7 +94,6 @@ TEST(Alg_Fox_MPI, Can_Find_Mult_Of_4x4_Matr) {
                 ASSERT_NEAR(reference_res[i], res[i], std::numeric_limits<double>::epsilon());
             }
         }
-
     }
 }
 

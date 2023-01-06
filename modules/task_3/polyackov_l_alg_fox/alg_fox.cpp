@@ -115,15 +115,13 @@ std::vector<double> getResOfFoxMult(std::vector<double> first_matr, std::vector<
     MPI_Bcast(&blocks_in_row, 1, MPI_INT, 0, MPI_COMM_WORLD);
     int fixed_space = block_size * block_size;
 
-
     /* Creating Cart */
-
 
     // Additional data for creating a communicator
     const int ndims = 2;
-    int dims[ndims];
+    int dims[2];
     dims[0] = dims[1] = blocks_in_row;
-    int periods[ndims];
+    int periods[2];
     periods[0] = periods[1] = 0;
 
     // Creating a communicator
@@ -131,7 +129,7 @@ std::vector<double> getResOfFoxMult(std::vector<double> first_matr, std::vector<
     MPI_Cart_create(MPI_COMM_WORLD, ndims, dims, periods, false, &cart_comm);
 
     // Determining the rank of a process by its Cartesian coordinates
-    int coords[ndims];
+    int coords[2];
     MPI_Cart_coords(cart_comm, rank, ndims, coords);
 
     // Communicator for rows
@@ -144,9 +142,7 @@ std::vector<double> getResOfFoxMult(std::vector<double> first_matr, std::vector<
     std::swap(subdims[0], subdims[1]);
     MPI_Cart_sub(cart_comm, subdims, &column_comm);
 
-
     /* Fox 's Algorithm */
-
 
     // Cij = sum(Ais * Bsi) where s belongs to the segment from 0 to the number of blocks
     std::vector<double> Ais;
