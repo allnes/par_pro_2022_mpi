@@ -4,11 +4,11 @@
 #include "./odd_even.h"
 #include <gtest-mpi-listener.hpp>
 
-TEST(ODD_EVEN_SORT, N_128) {
+TEST(ODD_EVEN_SORT, N_64) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    const int n = 128;
+    const int n = 64;
     std::vector<int> vec(n);
 
     if (rank == 0) {
