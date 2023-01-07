@@ -30,8 +30,12 @@ std::vector<int> sequenceMoore(std::vector<int> graph, int start, int n) {
                         Q.push_front(j);
                     }
                 }
-                if (Q.front() != i) {
-                Q.push_back(i);
+                if (Q.size() != 0) {
+                    if ((Q.front() != i)) {
+                        Q.push_back(i);
+                    }
+                } else {
+                    Q.push_back(i);
                 }
             }
         }
