@@ -2,12 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include <gtest-mpi-listener.hpp>
 #include <iostream>
 #include <random>
 #include <string>
 
 #include "./radix_batcher.h"
+#include <gtest-mpi-listener.hpp>
 
 TEST(Radix_Bather, Radix_Sort) {
     int rank;
